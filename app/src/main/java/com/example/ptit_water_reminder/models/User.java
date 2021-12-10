@@ -1,11 +1,46 @@
 package com.example.ptit_water_reminder.models;
 
+import java.util.Date;
+
 public class User {
     private int userId;
     private String name;
     private String email;
     private String password;
     private Integer waterTarget;
+
+    // constructors
+    public User() {
+
+    }
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User(String name, Integer waterTarget) {
+        this.name = name;
+        this.waterTarget = waterTarget;
+    }
+
+    public User(int userId, String name, Integer waterTarget) {
+        this.userId = userId;
+        this.name = name;
+        this.waterTarget = waterTarget;
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String name, String email, String password, Integer waterTarget) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.waterTarget = waterTarget;
+    }
+    // constructors
 
     public int getUserId() {
         return userId;
