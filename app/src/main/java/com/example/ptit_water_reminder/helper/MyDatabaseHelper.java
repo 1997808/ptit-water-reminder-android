@@ -212,7 +212,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public List<WaterLog> getAllWaterLogs() {
         List<WaterLog> waterLogList = new ArrayList<WaterLog>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CUP;
+        String selectQuery = "SELECT  * FROM " + TABLE_WATER_LOG;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -254,14 +254,19 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //                new String[]{String.valueOf(note.getNoteId())});
 //    }
 
-//    public void deleteNote(Note note) {
-//        Log.i(TAG, "MyDatabaseHelper.updateNote ... " + note.getNoteTitle() );
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_NOTIFICATION, KEY_ID + " = ?",
-//                new String[] { String.valueOf(note.getNoteId()) });
-//        db.close();
-//    }
+    public void deleteCup(Cup cup) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CUP, KEY_ID + " = ?",
+                new String[] { String.valueOf(cup.getCupId()) });
+        db.close();
+    }
+
+    public void deleteWaterLog(WaterLog waterLog) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_WATER_LOG, KEY_ID + " = ?",
+                new String[] { String.valueOf(waterLog.getWaterLogId()) });
+        db.close();
+    }
 
     private String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
