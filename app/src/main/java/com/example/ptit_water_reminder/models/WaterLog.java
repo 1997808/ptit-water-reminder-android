@@ -6,29 +6,29 @@ public class WaterLog {
     private int waterLogId;
     private int userId;
     private Integer amount;
-    private Date createAt;
+    private String createAt;
 
     // constructors
     public WaterLog() {
 
     }
 
-    public WaterLog(Date createAt) {
+    public WaterLog(String createAt) {
         this.createAt = createAt;
     }
 
-    public WaterLog(Integer amount, Date createAt) {
+    public WaterLog(Integer amount, String createAt) {
         this.amount = amount;
         this.createAt = createAt;
     }
 
-    public WaterLog(int waterLogId, Integer amount, Date createAt) {
+    public WaterLog(int waterLogId, Integer amount, String createAt) {
         this.waterLogId = waterLogId;
         this.amount = amount;
         this.createAt = createAt;
     }
-    // constructors
 
+    // constructors
     public int getWaterLogId() {
         return waterLogId;
     }
@@ -53,12 +53,11 @@ public class WaterLog {
         this.amount = amount;
     }
 
-    public Date getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Date createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
-
 }

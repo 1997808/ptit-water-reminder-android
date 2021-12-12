@@ -161,23 +161,46 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //    }
 
 
-//    public Note getNote(int id) {
-//        Log.i(TAG, "MyDatabaseHelper.getNote ... " + id);
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//
-//        Cursor cursor = db.query(TABLE_NOTIFICATION, new String[] { KEY_ID,
-//                        COLUMN_NOTE_TITLE, COLUMN_NOTE_CONTENT }, KEY_ID + "=?",
-//                new String[] { String.valueOf(id) }, null, null, null, null);
-//        if (cursor != null)
-//            cursor.moveToFirst();
-//
-//        Note note = new Note(Integer.parseInt(cursor.getString(0)),
-//                cursor.getString(1), cursor.getString(2));
-//        // return note
-//        return note;
-//    }
+    public User getUser(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USER, new String[] { KEY_ID,
+                        KEY_USER_NAME, KEY_USER_WATER_TARGET }, KEY_ID + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
 
+        User user = new User(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), Integer.parseInt(cursor.getString(2)));
+        // return note
+        return user;
+    }
+
+    public Cup getCup(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CUP, new String[] { KEY_ID,
+                        KEY_CUP_AMOUNT }, KEY_ID + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Cup cup = new Cup(Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)));
+        // return note
+        return cup;
+    }
+
+    public WaterLog getWaterLog(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_WATER_LOG, new String[] { KEY_ID,
+                        KEY_WATER_LOG_AMOUNT, KEY_WATER_LOG_CREATE_AT }, KEY_ID + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        WaterLog waterLog = new WaterLog(Integer.parseInt(cursor.getString(0)),
+                Integer.parseInt(cursor.getString(1)), formatDateTime(cursor.getString(2)));
+        // return note
+        return waterLog;
+    }
 
 //    public List<Note> getAllNotes() {
 //        Log.i(TAG, "MyDatabaseHelper.getAllNotes ... " );
@@ -242,6 +265,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    private String formatDateTime(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.format(date);
     }
 }
