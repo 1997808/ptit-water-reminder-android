@@ -13,8 +13,9 @@ import com.example.ptit_water_reminder.models.User;
 import com.example.ptit_water_reminder.models.WaterLog;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
@@ -99,8 +100,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // If Cup table has no data
-    // default, Insert 2 records.
+    // If Cup table has no data. default, Insert 2 records.
     public void createDefaultCupsIfNeed()  {
         int count = this.getCupsCount();
         if(count ==0 ) {
@@ -110,7 +110,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             this.addCup(cup2);
         }
     }
-
 
     public void addUser(User user) {
         Log.i(TAG, "MyDatabaseHelper.addNote ... " + user.getName());
@@ -149,17 +148,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
 //    public void addNotification(Notification notification) {
-//        Log.i(TAG, "MyDatabaseHelper.addNote ... " + notification.getNote());
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_NOTIFICATION_NOTE, notification.getNote());
-//        values.put(KEY_NOTIFICATION_TIME, notification.getTime());
-//
-//        // Inserting Row
-//        db.insert(TABLE_WATER_LOG, null, values);
-//        db.close();
 //    }
-
 
     public User getUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -202,31 +191,44 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return waterLog;
     }
 
-//    public List<Note> getAllNotes() {
-//        Log.i(TAG, "MyDatabaseHelper.getAllNotes ... " );
-//
-//        List<Note> noteList = new ArrayList<Note>();
-//        // Select All Query
-//        String selectQuery = "SELECT  * FROM " + TABLE_NOTIFICATION;
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursor = db.rawQuery(selectQuery, null);
-//
-//        // looping through all rows and adding to list
-//        if (cursor.moveToFirst()) {
-//            do {
-//                Note note = new Note();
-//                note.setNoteId(Integer.parseInt(cursor.getString(0)));
-//                note.setNoteTitle(cursor.getString(1));
-////                note.setNoteContent(cursor.getString(2));
-//                // Adding note to list
-//                noteList.add(note);
-//            } while (cursor.moveToNext());
-//        }
-//
-//        // return note list
-//        return noteList;
-//    }
+    public List<Cup> getAllCups() {
+        List<Cup> cupList = new ArrayList<Cup>();
+        String selectQuery = "SELECT  * FROM " + TABLE_CUP;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Cup cup = new Cup();
+                cup.setCupId(Integer.parseInt(cursor.getString(0)));
+                cup.setCupAmount(Integer.parseInt(cursor.getString(1)));
+                cupList.add(cup);
+            } while (cursor.moveToNext());
+        }
+        return cupList;
+    }
+
+    public List<WaterLog> getAllWaterLogs() {
+        List<WaterLog> waterLogList = new ArrayList<WaterLog>();
+        String selectQuery = "SELECT  * FROM " + TABLE_CUP;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                WaterLog log = new WaterLog();
+                log.setWaterLogId(Integer.parseInt(cursor.getString(0)));
+                log.setAmount(Integer.parseInt(cursor.getString(1)));
+                log.setCreateAt(formatDateTime(cursor.getString(2)));
+                waterLogList.add(log);
+            } while (cursor.moveToNext());
+        }
+        return waterLogList;
+    }
 
     public int getCupsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CUP;
