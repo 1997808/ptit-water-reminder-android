@@ -7,7 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.ptit_water_reminder.models.Cup;
+import com.example.ptit_water_reminder.models.Notification;
+import com.example.ptit_water_reminder.models.User;
+import com.example.ptit_water_reminder.models.WaterLog;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -73,8 +81,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
-        // Execute Script.
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_CUP);
         db.execSQL(CREATE_TABLE_WATER_LOG);
@@ -83,8 +89,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i(TAG, "MyDatabaseHelper.onUpgrade ... ");
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUP);
@@ -97,32 +101,62 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     // If Cup table has no data
     // default, Insert 2 records.
-//    public void createDefaultCupsIfNeed()  {
-//        int count = this.getNotesCount();
-//        if(count ==0 ) {
-//            Note note1 = new Note("Firstly see Android ListView",
-//                    "See Android ListView Example in o7planning.org");
-//            Note note2 = new Note("Learning Android SQLite",
-//                    "See Android SQLite Example in o7planning.org");
-//            this.addNote(note1);
-//            this.addNote(note2);
-//        }
-//    }
+    public void createDefaultCupsIfNeed()  {
+        int count = this.getCupsCount();
+        if(count ==0 ) {
+            Cup cup1 = new Cup(300);
+            Cup cup2 = new Cup(500);
+            this.addCup(cup1);
+            this.addCup(cup2);
+        }
+    }
 
 
-//    public void addNote(Note note) {
-//        Log.i(TAG, "MyDatabaseHelper.addNote ... " + note.getNoteTitle());
-//
+    public void addUser(User user) {
+        Log.i(TAG, "MyDatabaseHelper.addNote ... " + user.getName());
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_USER_NAME, user.getName());
+        values.put(KEY_USER_WATER_TARGET, user.getWaterTarget());
+
+        // Inserting Row
+        db.insert(TABLE_USER, null, values);
+        db.close();
+    }
+
+    public void addCup(Cup cup) {
+        Log.i(TAG, "MyDatabaseHelper.addNote ... " + cup.getCupAmount());
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_CUP_AMOUNT, cup.getCupAmount());
+
+        // Inserting Row
+        db.insert(TABLE_CUP, null, values);
+        db.close();
+    }
+
+    public void addWaterLog(WaterLog waterLog) {
+        Log.i(TAG, "MyDatabaseHelper.addNote ... " + waterLog.getAmount());
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_WATER_LOG_AMOUNT, waterLog.getAmount());
+        values.put(KEY_WATER_LOG_CREATE_AT, getDateTime());
+
+        // Inserting Row
+        db.insert(TABLE_WATER_LOG, null, values);
+        db.close();
+    }
+
+//    public void addNotification(Notification notification) {
+//        Log.i(TAG, "MyDatabaseHelper.addNote ... " + notification.getNote());
 //        SQLiteDatabase db = this.getWritableDatabase();
-//
 //        ContentValues values = new ContentValues();
-//        values.put(COLUMN_NOTE_TITLE, note.getNoteTitle());
-//        values.put(COLUMN_NOTE_CONTENT, note.getNoteContent());
+//        values.put(KEY_NOTIFICATION_NOTE, notification.getNote());
+//        values.put(KEY_NOTIFICATION_TIME, notification.getTime());
 //
 //        // Inserting Row
-//        db.insert(TABLE_NOTIFICATION, null, values);
-//
-//        // Closing database connection
+//        db.insert(TABLE_WATER_LOG, null, values);
 //        db.close();
 //    }
 
@@ -171,20 +205,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //        return noteList;
 //    }
 
-//    public int getNotesCount() {
-//        Log.i(TAG, "MyDatabaseHelper.getNotesCount ... " );
-//
-//        String countQuery = "SELECT  * FROM " + TABLE_NOTIFICATION;
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery(countQuery, null);
-//
-//        int count = cursor.getCount();
-//
-//        cursor.close();
-//
-//        // return count
-//        return count;
-//    }
+    public int getCupsCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_CUP;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
 
 
 //    public int updateNote(Note note) {
@@ -210,4 +238,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //        db.close();
 //    }
 
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 }
