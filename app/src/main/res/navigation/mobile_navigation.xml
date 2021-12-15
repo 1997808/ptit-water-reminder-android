@@ -7,19 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.ptit_water_reminder.ui.home.HomeFragment"
+        android:name="com.example.ptit_water_reminder.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.ptit_water_reminder.ui.dashboard.DashboardFragment"
+        android:name="com.example.ptit_water_reminder.ChartFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_chart" />
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.example.ptit_water_reminder.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.ptit_water_reminder.ui.notifications.NotificationsFragment"
+        android:name="com.example.ptit_water_reminder.AlarmFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_alarm" />
 </navigation>
