@@ -6,18 +6,18 @@
         android:title="Home"/>
 
     <item
-        android:id="@+id/navigation_explore"
+        android:id="@+id/navigation_dashboard"
         android:icon="@drawable/chart"
-        android:title="Explore"/>
+        android:title="Chart" />
 
     <item
-        android:id="@+id/navigation_subscriptions"
+        android:id="@+id/navigation_history"
         android:icon="@drawable/history"
-        android:title="Subscriptions"/>
+        android:title="Log" />
 
     <item
-        android:id="@+id/navigation_library"
+        android:id="@+id/navigation_notifications"
         android:icon="@drawable/alarm"
-        android:title="Library"/>
+        android:title="Alarm" />
 
 </menu>
