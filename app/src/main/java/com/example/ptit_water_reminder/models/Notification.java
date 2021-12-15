@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Notification {
     private int notificationId;
-    private int userId;
+//    private int userId;
     private String note;
     private Date time;
 
@@ -37,13 +37,13 @@ public class Notification {
         this.notificationId = notificationId;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+//    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
 
     public String getNote() {
         return note;

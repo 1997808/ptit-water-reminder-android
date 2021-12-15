@@ -4,13 +4,17 @@ import java.util.Date;
 
 public class WaterLog {
     private int waterLogId;
-    private int userId;
+//    private int userId;
     private Integer amount;
     private String createAt;
 
     // constructors
     public WaterLog() {
 
+    }
+
+    public WaterLog(Integer amount) {
+        this.amount = amount;
     }
 
     public WaterLog(String createAt) {
@@ -37,13 +41,13 @@ public class WaterLog {
         this.waterLogId = waterLogId;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+//    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
 
     public Integer getAmount() {
         return amount;
@@ -59,5 +63,10 @@ public class WaterLog {
 
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
+    }
+
+    @Override
+    public String toString() {
+        return this.createAt;
     }
 }

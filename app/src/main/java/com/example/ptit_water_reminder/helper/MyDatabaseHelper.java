@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -56,25 +58,30 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_NOTIFICATION_TIME = "time";
 
     // Table Create Statements
-    private static final String CREATE_TABLE_USER = "CREATE TABLE "
-            + TABLE_USER + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_USER_NAME
-            + " TEXT," + KEY_USER_EMAIL + " TEXT," + KEY_USER_PASSWORD
-            + " TEXT," + KEY_USER_WATER_TARGET + " INTEGER" + ")";
+    private static final String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_USER_NAME + " TEXT,"
+            + KEY_USER_EMAIL + " TEXT,"
+            + KEY_USER_PASSWORD + " TEXT,"
+            + KEY_USER_WATER_TARGET + " INTEGER" + ")";
 
 //    private static final String CREATE_TABLE_CUP = "CREATE TABLE " + TABLE_CUP
 //            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_USER_ID + " INTEGER,"
 //            + KEY_CUP_AMOUNT + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_CUP = "CREATE TABLE " + TABLE_CUP
-            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CUP_AMOUNT + " INTEGER" + ")";
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_CUP_AMOUNT + " INTEGER" + ")";
 
-    private static final String CREATE_TABLE_WATER_LOG = "CREATE TABLE "
-            + TABLE_WATER_LOG + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_WATER_LOG_AMOUNT + " INTEGER," + KEY_WATER_LOG_CREATE_AT + " DATETIME" + ")";
+    private static final String CREATE_TABLE_WATER_LOG = "CREATE TABLE " + TABLE_WATER_LOG
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_WATER_LOG_AMOUNT + " INTEGER,"
+            + KEY_WATER_LOG_CREATE_AT + " DATETIME" + ")";
 
-    private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE "
-            + TABLE_NOTIFICATION + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_NOTIFICATION_NOTE + " TEXT," + KEY_NOTIFICATION_TIME + " DATETIME" + ")";
+    private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE " + TABLE_NOTIFICATION
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_NOTIFICATION_NOTE + " TEXT,"
+            + KEY_NOTIFICATION_TIME + " DATETIME" + ")";
 
     public MyDatabaseHelper(Context context)  {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -103,11 +110,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     // If Cup table has no data. default, Insert 2 records.
     public void createDefaultCupsIfNeed()  {
         int count = this.getCupsCount();
-        if(count ==0 ) {
+        if(count == 0) {
             Cup cup1 = new Cup(300);
             Cup cup2 = new Cup(500);
             this.addCup(cup1);
             this.addCup(cup2);
+        }
+    }
+
+    public void createDefaultWaterLogsIfNeed()  {
+        int count = this.getWaterLogCount();
+        if(count == 0) {
+            WaterLog log1 = new WaterLog(300);
+            WaterLog log2 = new WaterLog(500);
+            this.addWaterLog(log1);
+            this.addWaterLog(log2);
         }
     }
 
@@ -207,6 +224,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 cupList.add(cup);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return cupList;
     }
 
@@ -223,15 +241,25 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 WaterLog log = new WaterLog();
                 log.setWaterLogId(Integer.parseInt(cursor.getString(0)));
                 log.setAmount(Integer.parseInt(cursor.getString(1)));
-                log.setCreateAt(formatDateTime(cursor.getString(2)));
+                log.setCreateAt(cursor.getString(2));
                 waterLogList.add(log);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return waterLogList;
     }
 
     public int getCupsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CUP;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public int getWaterLogCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_WATER_LOG;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();

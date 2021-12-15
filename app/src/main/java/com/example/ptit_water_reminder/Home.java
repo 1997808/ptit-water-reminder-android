@@ -20,7 +20,6 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -32,7 +31,7 @@ public class Home extends AppCompatActivity {
                         openFragment(ChartFragment.newInstance());
                         return true;
                     case R.id.navigation_history:
-                        openFragment(HistoryFragment.newInstance());
+                        openFragment(HistoryFragment.newInstance("", ""));
                         return true;
                     case R.id.navigation_notifications:
                         openFragment(AlarmFragment.newInstance());

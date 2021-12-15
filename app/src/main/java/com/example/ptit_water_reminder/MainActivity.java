@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+
 
 public class MainActivity extends AppCompatActivity {
     EditText edTaiKhoan, edPassword;
@@ -19,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         anhXa();
 
+        MyDatabaseHelper db = new MyDatabaseHelper(this);
+        db.createDefaultCupsIfNeed();
+        db.createDefaultWaterLogsIfNeed();
+        db.getAllCups();
 
         btdangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
