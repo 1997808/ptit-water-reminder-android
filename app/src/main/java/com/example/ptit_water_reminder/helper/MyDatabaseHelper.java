@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.ptit_water_reminder.HistoryFragment;
 import com.example.ptit_water_reminder.models.Cup;
 import com.example.ptit_water_reminder.models.Notification;
 import com.example.ptit_water_reminder.models.User;

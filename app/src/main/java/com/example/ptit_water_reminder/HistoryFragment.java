@@ -7,6 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+import com.example.ptit_water_reminder.models.Notification;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,8 +23,18 @@ import android.view.ViewGroup;
  */
 public class HistoryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private ListView listView;
+//    private static final int MENU_ITEM_VIEW = 111;
+//    private static final int MENU_ITEM_EDIT = 222;
+//    private static final int MENU_ITEM_CREATE = 333;
+//    private static final int MENU_ITEM_DELETE = 444;
+//
+//    private static final int MY_REQUEST_CODE = 1000;
+
+    private final List<Notification> noteList = new ArrayList<Notification>();
+    private ArrayAdapter<Notification> listViewAdapter;
+
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -25,7 +43,6 @@ public class HistoryFragment extends Fragment {
     private String mParam2;
 
     public HistoryFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -37,6 +54,7 @@ public class HistoryFragment extends Fragment {
      * @return A new instance of fragment HistoryFragment.
      */
     // TODO: Rename and change types and number of parameters
+
     public static HistoryFragment newInstance(String param1, String param2) {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
@@ -58,7 +76,24 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        View view= inflater.inflate(R.layout.fragment_history, container, false);
+
+         String[] item={"so 1", "so2","so3"};
+
+        ListView listView=(ListView) view.findViewById(R.id.listView);
+
+//        MyDatabaseHelper db = new MyDatabaseHelper(this);
+
+
+        ArrayAdapter<String> listViewAdapter= new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_list_item_1,
+                item
+        );
+        listView.setAdapter(listViewAdapter);
+        return view;
+
+
     }
 }
