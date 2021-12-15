@@ -4,45 +4,50 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.Notification;
 
+import android.widget.ListView;
+
+import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
+import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+import com.example.ptit_water_reminder.models.Cup;
+import com.example.ptit_water_reminder.models.WaterLog;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HistoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HistoryFragment extends Fragment {
-
     private ListView listView;
-//    private static final int MENU_ITEM_VIEW = 111;
-//    private static final int MENU_ITEM_EDIT = 222;
-//    private static final int MENU_ITEM_CREATE = 333;
-//    private static final int MENU_ITEM_DELETE = 444;
-//
-//    private static final int MY_REQUEST_CODE = 1000;
+    private List<WaterLog> logList = new ArrayList<>();
+    private CustomLogListAdapter logListAdapter;
+
+
+
 
     private final List<Notification> noteList = new ArrayList<Notification>();
     private ArrayAdapter<Notification> listViewAdapter;
 
 
+
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     public HistoryFragment() {
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -54,11 +59,12 @@ public class HistoryFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
 
+
     public static HistoryFragment newInstance(String param1, String param2) {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,23 +82,18 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        listView = view.findViewById(R.id.listLogView);
 
-         String[] item={"so 1", "so2","so3"};
+        MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+        List<WaterLog> data = db.getAllWaterLogs();
+//        logList = db.getAllWaterLogs();
+        logListAdapter = new CustomLogListAdapter(getActivity(), logList);
+        listView.setAdapter(logListAdapter);
+        logList.addAll(data);
+        logListAdapter.notifyDataSetChanged();
 
-        ListView listView=(ListView) view.findViewById(R.id.listView);
-
-//        MyDatabaseHelper db = new MyDatabaseHelper(this);
-
-
-        ArrayAdapter<String> listViewAdapter= new ArrayAdapter<String>(
-                getActivity(), android.R.layout.simple_list_item_1,
-                item
-        );
-        listView.setAdapter(listViewAdapter);
         return view;
-
 
     }
 }

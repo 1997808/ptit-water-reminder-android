@@ -14,37 +14,33 @@ import com.google.android.material.navigation.NavigationBarView;
 public class Home extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        openFragment(HomeFragment.newInstance("",""));
+                        openFragment(HomeFragment.newInstance());
                         return true;
-                    case R.id.navigation_explore:
-                        openFragment(ChartFragment.newInstance("",""));
+                    case R.id.navigation_dashboard:
+                        openFragment(ChartFragment.newInstance());
                         return true;
-                    case R.id.navigation_subscriptions:
-                        openFragment(HistoryFragment.newInstance("",""));
+                    case R.id.navigation_history:
+                        openFragment(HistoryFragment.newInstance("", ""));
                         return true;
-                    case R.id.navigation_library:
-                        openFragment(AlarmFragment.newInstance("", ""));
+                    case R.id.navigation_notifications:
+                        openFragment(AlarmFragment.newInstance());
                         return true;
                 }
                 return false;
             }
 
             private void openFragment(Fragment fragment) {
-//                Log.d(TAG, "openFragment: ");
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 //this is a helper class that replaces the container with the fragment. You can replace or add fragments.
                 transaction.replace(R.id.container, fragment);
