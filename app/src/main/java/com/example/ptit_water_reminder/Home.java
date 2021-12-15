@@ -26,16 +26,16 @@ public class Home extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        openFragment(HomeFragment.newInstance("",""));
+                        openFragment(HomeFragment.newInstance());
                         return true;
                     case R.id.navigation_dashboard:
-                        openFragment(ChartFragment.newInstance("",""));
+                        openFragment(ChartFragment.newInstance());
                         return true;
                     case R.id.navigation_history:
-                        openFragment(HistoryFragment.newInstance("",""));
+                        openFragment(HistoryFragment.newInstance());
                         return true;
                     case R.id.navigation_notifications:
-                        openFragment(AlarmFragment.newInstance("", ""));
+                        openFragment(AlarmFragment.newInstance());
                         return true;
                 }
                 return false;
