@@ -5,7 +5,7 @@ import java.util.Date;
 public class WaterLog {
     private int waterLogId;
 //    private int userId;
-    private Integer amount;
+    private int amount;
     private String createAt;
 
     // constructors
@@ -13,7 +13,7 @@ public class WaterLog {
 
     }
 
-    public WaterLog(Integer amount) {
+    public WaterLog(int amount) {
         this.amount = amount;
     }
 
@@ -21,12 +21,12 @@ public class WaterLog {
         this.createAt = createAt;
     }
 
-    public WaterLog(Integer amount, String createAt) {
+    public WaterLog(int amount, String createAt) {
         this.amount = amount;
         this.createAt = createAt;
     }
 
-    public WaterLog(int waterLogId, Integer amount, String createAt) {
+    public WaterLog(int waterLogId, int amount, String createAt) {
         this.waterLogId = waterLogId;
         this.amount = amount;
         this.createAt = createAt;
@@ -49,11 +49,11 @@ public class WaterLog {
 //        this.userId = userId;
 //    }
 
-    public Integer getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -67,6 +67,6 @@ public class WaterLog {
 
     @Override
     public String toString() {
-        return this.createAt;
+        return this.createAt + " ("+ this.amount+")";
     }
 }

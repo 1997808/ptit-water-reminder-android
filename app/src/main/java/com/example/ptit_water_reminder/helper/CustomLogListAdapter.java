@@ -19,7 +19,7 @@ public class CustomLogListAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public CustomLogListAdapter(Context aContext,  List<WaterLog> listData) {
+    public CustomLogListAdapter(Context aContext, List<WaterLog> listData) {
         this.context = aContext;
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
@@ -54,8 +54,7 @@ public class CustomLogListAdapter extends BaseAdapter {
         }
 
         WaterLog log = this.listData.get(position);
-        Log.i("TAG", String.valueOf(log.getAmount()));
-        holder.amount.setText(log.getAmount());
+        holder.amount.setText("" + log.getAmount());
         holder.date.setText(log.getCreateAt());
 //        int imageId = this.getMipmapResIdByName(log.getFlagName());
 //        holder.flagView.setImageResource(imageId);

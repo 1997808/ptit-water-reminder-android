@@ -36,8 +36,8 @@ public class HistoryFragment extends Fragment {
     public static HistoryFragment newInstance(String param1, String param2) {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,9 +59,9 @@ public class HistoryFragment extends Fragment {
 
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
         List<WaterLog> data = db.getAllWaterLogs();
+//        logList = db.getAllWaterLogs();
         logListAdapter = new CustomLogListAdapter(getActivity(), logList);
         listView.setAdapter(logListAdapter);
-        Log.i("TAG", String.valueOf(data));
         logList.addAll(data);
         logListAdapter.notifyDataSetChanged();
 
