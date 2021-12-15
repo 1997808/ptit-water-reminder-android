@@ -41,7 +41,6 @@ public class HistoryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public HistoryFragment() {
     }
 
