@@ -271,17 +271,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public int getSumWaterLogToday() {
         int total = 0;
-        String day = "";
-        String sumQuery = "SELECT SUM(" + KEY_WATER_LOG_AMOUNT + ") as Total, DATE('now', '+1 day') as Day" +
+        String sumQuery = "SELECT SUM(" + KEY_WATER_LOG_AMOUNT + ") as Total" +
                 " FROM " + TABLE_WATER_LOG +
                 " WHERE " + KEY_WATER_LOG_CREATE_AT + " BETWEEN DATE() AND DATE('now', '+1 day')";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sumQuery, null);
         if (cursor.moveToFirst()) {
-            day = cursor.getString(1);
             total = cursor.getInt(0);
         }
-        Log.i("TAG", day);
         cursor.close();
         return total;
     }
@@ -300,6 +297,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //        return db.update(TABLE_NOTIFICATION, values, KEY_ID + " = ?",
 //                new String[]{String.valueOf(note.getNoteId())});
 //    }
+
+    public int updateCup(Cup cup) {
+        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... "  + cup.getCupId());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_CUP_AMOUNT, cup.getCupAmount());
+
+        return db.update(TABLE_CUP, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(cup.getCupId())});
+    }
+
+    public int updateWaterLog(WaterLog log) {
+        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... "  + log.getWaterLogId());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_WATER_LOG_AMOUNT, log.getAmount());
+
+        return db.update(TABLE_WATER_LOG, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(log.getWaterLogId())});
+    }
 
     public void deleteCup(Cup cup) {
         SQLiteDatabase db = this.getWritableDatabase();
