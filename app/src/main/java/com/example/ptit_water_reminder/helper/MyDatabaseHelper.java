@@ -120,6 +120,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createDefaultWaterLogsIfNeed()  {
+//        int count = 0;
         int count = this.getWaterLogCount();
         if(count == 0) {
             WaterLog log1 = new WaterLog(300);
@@ -266,6 +267,23 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         int count = cursor.getCount();
         cursor.close();
         return count;
+    }
+
+    public int getSumWaterLogToday() {
+        int total = 0;
+        String day = "";
+        String sumQuery = "SELECT SUM(" + KEY_WATER_LOG_AMOUNT + ") as Total, DATE('now', '+1 day') as Day" +
+                " FROM " + TABLE_WATER_LOG +
+                " WHERE " + KEY_WATER_LOG_CREATE_AT + " BETWEEN DATE() AND DATE('now', '+1 day')";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sumQuery, null);
+        if (cursor.moveToFirst()) {
+            day = cursor.getString(1);
+            total = cursor.getInt(0);
+        }
+        Log.i("TAG", day);
+        cursor.close();
+        return total;
     }
 
 
