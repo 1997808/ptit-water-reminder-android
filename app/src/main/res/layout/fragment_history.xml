@@ -25,22 +25,22 @@
         android:id="@+id/themHistory"
         android:layout_width="wrap_content"
         android:layout_height="92dp"
-        android:layout_alignParentEnd="true"
-
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|right"
-        android:layout_marginEnd="80dp"
+        android:layout_margin="20dp"
 
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="add"
         android:icon="@drawable/add_item1"
         android:translationX="-20dp"
         android:translationY="-50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/add_item1"
         tools:ignore="MissingConstraints" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
