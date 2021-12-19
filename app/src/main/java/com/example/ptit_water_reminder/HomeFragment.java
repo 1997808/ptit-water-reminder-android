@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         int sum = db.getSumWaterLogToday();
         Log.i("TAG", String.valueOf(sum));
         int percentInt = calculatePercentage(sum, 2000);
-        progress.setProgressCompat(percentInt, true);
+        progress.setProgressCompat(percentInt, false);
         percent.setText(percentInt + "%");
         overview_ml.setText(sum + " ml");
         return view;
@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
         if (n > max) {
             result = 100;
         } else {
-            result = n / max * 100;
+            result = n * 100 / max;
         }
         return (int) Math.floor(result);
     }
