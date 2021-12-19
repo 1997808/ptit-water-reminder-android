@@ -7,16 +7,10 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:label="@string/app_name"
         android:theme="@style/Theme.Ptit_Water_Reminder">
         <activity
             android:name=".Home"
-            android:exported="false" />
-        <activity
-            android:name=".home_1"
-            android:exported="false"
-            android:label="@string/title_activity_home1" />
-        <activity
-            android:name=".Larm"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

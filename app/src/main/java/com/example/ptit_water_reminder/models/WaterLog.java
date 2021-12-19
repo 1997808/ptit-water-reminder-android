@@ -15,6 +15,7 @@ public class WaterLog {
 
     public WaterLog(int amount) {
         this.amount = amount;
+        this.createAt = new Date().toString();
     }
 
     public WaterLog(String createAt) {
