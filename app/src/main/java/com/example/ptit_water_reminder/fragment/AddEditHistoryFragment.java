@@ -1,8 +1,10 @@
 package com.example.ptit_water_reminder.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ public class AddEditHistoryFragment extends Fragment {
     private Button buttonCancel;
 
     private WaterLog waterLog;
+    private  View view;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +64,16 @@ public class AddEditHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_edit_history, container, false);
+
+        buttonSave= view.findViewById(R.id.button_save);
+        buttonCancel= view.findViewById(R.id.button_cancel);
+        textWater= view.findViewById(R.id.editText_Waterlog);
+
+
+//        Intent intent = getActivity().getIntent();
+//        int message = intent.getIntExtra("id",0);
+//        Log.d("tag", "test "+ message);
+
         this.buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)  {
                 buttonSaveClicked();
@@ -68,10 +81,15 @@ public class AddEditHistoryFragment extends Fragment {
 
             public void buttonSaveClicked() {
                 MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
-                String LuongNuoc = textWater.getText().toString();
 
-                waterLog= new WaterLog(LuongNuoc);
+                String LuongNuoc = textWater.getText().toString();
+                int ln = 0;
+                if(!LuongNuoc.isEmpty()) ln = Integer.parseInt(LuongNuoc);
+                waterLog= new WaterLog(ln);
                 db.addWaterLog(waterLog);
+
+               getFragmentManager().popBackStack();
+
             }
         });
 
@@ -84,4 +102,9 @@ public class AddEditHistoryFragment extends Fragment {
         });
         return view;
     }
+
+//    public  void receiveData(WaterLog waterLog){
+//        textWater= view.findViewById(R.id.editText_Waterlog);
+//        textWater.setText(waterLog.getWaterLogId());
+//    }
 }

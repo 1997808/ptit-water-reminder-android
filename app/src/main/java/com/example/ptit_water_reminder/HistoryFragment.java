@@ -1,9 +1,13 @@
 package com.example.ptit_water_reminder;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.ptit_water_reminder.fragment.AddEditHistoryFragment;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.Notification;
 
@@ -41,6 +46,7 @@ public class HistoryFragment extends Fragment {
     private ListView listView;
     private List<WaterLog> logList = new ArrayList<>();
     private CustomLogListAdapter logListAdapter;
+    FloatingActionButton themHistory;
 //    private final List<Notification> noteList = new ArrayList<Notification>();
 //    private ArrayAdapter<Notification> listViewAdapter;
 
@@ -52,10 +58,16 @@ public class HistoryFragment extends Fragment {
     private static final int MENU_ITEM_CREATE = 333;
     private static final int MENU_ITEM_DELETE = 444;
 
+//    public IsendDataListener mIsendDataListener;
+
     private String mParam1;
     private String mParam2;
     public HistoryFragment() {
     }
+
+//    public interface IsendDataListener{
+//        void sendData(WaterLog waterLogSelected);
+//    }
 
     public static HistoryFragment newInstance(String param1, String param2) {
         HistoryFragment fragment = new HistoryFragment();
@@ -76,6 +88,19 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+//        mIsendDataListener= (IsendDataListener) getActivity();
+        Toast.makeText(getActivity(), "onAttach", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(getActivity(), "onResume", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
@@ -91,7 +116,20 @@ public class HistoryFragment extends Fragment {
         logListAdapter.notifyDataSetChanged();
 
         registerForContextMenu(this.listView);
-        return view;
+
+        themHistory = view.findViewById(R.id.themHistory);
+        themHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment UpdateFragment = new AddEditHistoryFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.container, UpdateFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+       return view;
+
     }
 
     @Override
@@ -101,8 +139,6 @@ public class HistoryFragment extends Fragment {
         menu.setHeaderTitle("Chọn");
 
         // groupId, itemId, order, title
-        menu.add(0, MENU_ITEM_VIEW , 0, "View Note");
-        menu.add(0, MENU_ITEM_CREATE , 1, "Create Note");
         menu.add(0, MENU_ITEM_EDIT , 2, "Edit Note");
         menu.add(0, MENU_ITEM_DELETE, 4, "Delete Note");
     }
@@ -121,13 +157,46 @@ public class HistoryFragment extends Fragment {
         else if(item.getItemId() == MENU_ITEM_CREATE){
         }
         else if(item.getItemId() == MENU_ITEM_EDIT ){
-            Log.d("this is tag","this is edit");
+//            // chuyen du lieu sang acivity
+//            Intent intent = new Intent(getActivity().getBaseContext(),
+//                    AddEditHistoryFragment.class);
+//
+//            intent.putExtra("id",selectedWaterLog.getWaterLogId());
+//            getActivity().startActivity(intent);
+            Fragment UpdateFragment = new AddEditHistoryFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.container, UpdateFragment);
+            sendDataToFragment(selectedWaterLog.getWaterLogId());
+
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
         else if(item.getItemId() == MENU_ITEM_DELETE){
+            new AlertDialog.Builder(getActivity())
+                    .setMessage(selectedWaterLog.getWaterLogId()+". Are you sure you want to delete?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            deleteHistory(selectedWaterLog);
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         }
         else {
             return false;
         }
         return true;
+    }
+
+    private void sendDataToFragment(int selectedWaterLog) {
+    }
+
+    private void deleteHistory(WaterLog waterLog)  {
+        MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+        db.deleteWaterLog(waterLog);
+        this.logList.remove(waterLog);
+        // Refresh ListView.
+        this.logListAdapter.notifyDataSetChanged();
     }
 }
