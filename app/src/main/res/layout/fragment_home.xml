@@ -21,6 +21,7 @@
         app:trackThickness="20dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button_home"
         android:layout_width="wrap_content"
         android:layout_height="92dp"
         android:layout_gravity="bottom|right"

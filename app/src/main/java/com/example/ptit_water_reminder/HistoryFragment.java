@@ -80,6 +80,7 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         listView = view.findViewById(R.id.listLogView);
+        getActivity().setTitle("Log");
 
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
         List<WaterLog> data = db.getAllWaterLogs();
@@ -112,7 +113,6 @@ public class HistoryFragment extends Fragment {
                 info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         final WaterLog selectedWaterLog = (WaterLog) this.listView.getItemAtPosition(info.position);
-
 
         if(item.getItemId() == MENU_ITEM_VIEW){
             Log.d("this is tag","messsssss");
