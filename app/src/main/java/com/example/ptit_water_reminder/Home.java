@@ -46,7 +46,6 @@ public class Home extends AppCompatActivity {
 
             private void openFragment(Fragment fragment) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
                 transaction.replace(R.id.container, fragment);
                 transaction.addToBackStack(null); //if you add fragments it will be added to the backStack. If you replace the fragment it will add only the last fragment
                 transaction.commit(); // commit() performs the action
