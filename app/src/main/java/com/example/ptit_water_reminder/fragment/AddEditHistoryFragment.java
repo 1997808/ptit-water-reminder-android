@@ -87,9 +87,7 @@ public class AddEditHistoryFragment extends Fragment {
                 if(!LuongNuoc.isEmpty()) ln = Integer.parseInt(LuongNuoc);
                 waterLog= new WaterLog(ln);
                 db.addWaterLog(waterLog);
-
-               getFragmentManager().popBackStack();
-
+                getFragmentManager().popBackStack();
             }
         });
 

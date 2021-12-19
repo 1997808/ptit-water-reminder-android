@@ -49,7 +49,7 @@ public class AlarmFragment extends Fragment {
             public void onClick(View view) {
                 Fragment addFragment = new addAlarmFragment();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.container, addFragment);
+                transaction.add(R.id.fragment_container, addFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

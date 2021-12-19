@@ -20,25 +20,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.ptit_water_reminder.fragment.AddEditHistoryFragment;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
-import com.example.ptit_water_reminder.models.Notification;
 
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
-import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
-import com.example.ptit_water_reminder.models.Cup;
 import com.example.ptit_water_reminder.models.WaterLog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
