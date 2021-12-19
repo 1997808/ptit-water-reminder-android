@@ -12,8 +12,6 @@
         android:id="@+id/listLogView"
         android:layout_width="372dp"
         android:layout_height="581dp"
-
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
@@ -25,17 +23,9 @@
         android:id="@+id/themAlarm"
         android:layout_width="wrap_content"
         android:layout_height="92dp"
-        android:layout_alignParentEnd="true"
-
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|right"
-        android:layout_marginEnd="80dp"
-
-        android:layout_marginBottom="32dp"
+        android:layout_margin="20dp"
         android:contentDescription="add"
-        android:icon="@drawable/add_item1"
-        android:translationX="-20dp"
-        android:translationY="-50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/add_item1"
