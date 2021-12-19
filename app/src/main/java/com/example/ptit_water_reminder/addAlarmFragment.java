@@ -32,9 +32,6 @@ public class addAlarmFragment extends Fragment {
     TextView txtHienThi;
     Calendar calendar;
 
-
-
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 

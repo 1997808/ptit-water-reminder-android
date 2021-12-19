@@ -1,4 +1,4 @@
-package com.example.ptit_water_reminder;
+package com.example.ptit_water_reminder.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,13 +6,13 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.ptit_water_reminder.R;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.WaterLog;
 
@@ -63,7 +63,6 @@ public class AddEditHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_add_edit_history, container, false);
 
         buttonSave= view.findViewById(R.id.button_save);
@@ -88,9 +87,7 @@ public class AddEditHistoryFragment extends Fragment {
                 if(!LuongNuoc.isEmpty()) ln = Integer.parseInt(LuongNuoc);
                 waterLog= new WaterLog(ln);
                 db.addWaterLog(waterLog);
-
-               getFragmentManager().popBackStack();
-
+                getFragmentManager().popBackStack();
             }
         });
 
@@ -98,14 +95,9 @@ public class AddEditHistoryFragment extends Fragment {
             public void onClick(View v)  {
                 buttonCancelClicked();
             }
-
             private void buttonCancelClicked() {
-
             }
         });
-
-
-
         return view;
     }
 

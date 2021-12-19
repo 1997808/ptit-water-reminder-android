@@ -40,7 +40,8 @@ public class AlarmFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        // Inflate the layout for this fragment
+        getActivity().setTitle("Alarm");
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
         themAlarm = view.findViewById(R.id.themAlarm);
         themAlarm.setOnClickListener(new View.OnClickListener() {
@@ -48,14 +49,11 @@ public class AlarmFragment extends Fragment {
             public void onClick(View view) {
                 Fragment addFragment = new addAlarmFragment();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.container, addFragment);
+                transaction.add(R.id.fragment_container, addFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
-
         return view;
-
-
     }
 }

@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         db.createDefaultWaterLogsIfNeed();
         db.getAllCups();
 
+        this.getSupportActionBar().setTitle("Login");
+
         btdangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,18 +40,14 @@ public class MainActivity extends AppCompatActivity {
                         Intent i= new Intent(MainActivity.this,Home.class);
                         startActivity(i);
                     }
-                   else{
+                    else {
                         Toast.makeText(MainActivity.this,"Dang nhap that bai", Toast.LENGTH_SHORT).show();
-                   }
+                    }
                 }
-
-
-               Intent i= new Intent(MainActivity.this,Home.class);
-               startActivity(i);
-
+                Intent i= new Intent(MainActivity.this,Home.class);
+                startActivity(i);
             }
         });
-
     }
 
     public  void anhXa(){
@@ -57,7 +55,5 @@ public class MainActivity extends AppCompatActivity {
         edPassword= (EditText) findViewById(R.id.password);
         btdangNhap=(Button) findViewById(R.id.btDangNhap);
         btdangKy=(Button) findViewById(R.id.btDangKy);
-
-
     }
 }

@@ -20,24 +20,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.ptit_water_reminder.fragment.AddEditHistoryFragment;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
-import com.example.ptit_water_reminder.models.Notification;
 
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
-import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
-import com.example.ptit_water_reminder.models.Cup;
 import com.example.ptit_water_reminder.models.WaterLog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +39,6 @@ public class HistoryFragment extends Fragment {
     private List<WaterLog> logList = new ArrayList<>();
     private CustomLogListAdapter logListAdapter;
     FloatingActionButton themHistory;
-
-
-
-
-
-//
 //    private final List<Notification> noteList = new ArrayList<Notification>();
 //    private ArrayAdapter<Notification> listViewAdapter;
 
@@ -86,7 +73,6 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -111,6 +97,7 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         listView = view.findViewById(R.id.listLogView);
+        getActivity().setTitle("Log");
 
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
         List<WaterLog> data = db.getAllWaterLogs();
@@ -136,20 +123,17 @@ public class HistoryFragment extends Fragment {
        return view;
 
     }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view,
                                     ContextMenu.ContextMenuInfo menuInfo)    {
-
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.setHeaderTitle("Chọn");
 
         // groupId, itemId, order, title
-
         menu.add(0, MENU_ITEM_EDIT , 2, "Edit Note");
         menu.add(0, MENU_ITEM_DELETE, 4, "Delete Note");
     }
-
-
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
@@ -158,17 +142,12 @@ public class HistoryFragment extends Fragment {
 
         final WaterLog selectedWaterLog = (WaterLog) this.listView.getItemAtPosition(info.position);
 
-
         if(item.getItemId() == MENU_ITEM_VIEW){
             Log.d("this is tag","messsssss");
             Toast.makeText(getContext(),selectedWaterLog.getWaterLogId(),Toast.LENGTH_LONG).show();// chu y
-
-
         }
         else if(item.getItemId() == MENU_ITEM_CREATE){
-
         }
-
         else if(item.getItemId() == MENU_ITEM_EDIT ){
 //            // chuyen du lieu sang acivity
 //            Intent intent = new Intent(getActivity().getBaseContext(),
@@ -176,9 +155,6 @@ public class HistoryFragment extends Fragment {
 //
 //            intent.putExtra("id",selectedWaterLog.getWaterLogId());
 //            getActivity().startActivity(intent);
-
-
-
             Fragment UpdateFragment = new AddEditHistoryFragment();
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.container, UpdateFragment);
@@ -186,17 +162,8 @@ public class HistoryFragment extends Fragment {
 
             transaction.addToBackStack(null);
             transaction.commit();
-
-
-
-
-
-
-
-
         }
         else if(item.getItemId() == MENU_ITEM_DELETE){
-
             new AlertDialog.Builder(getActivity())
                     .setMessage(selectedWaterLog.getWaterLogId()+". Are you sure you want to delete?")
                     .setCancelable(false)
@@ -207,7 +174,6 @@ public class HistoryFragment extends Fragment {
                     })
                     .setNegativeButton("No", null)
                     .show();
-
         }
         else {
             return false;
@@ -216,10 +182,6 @@ public class HistoryFragment extends Fragment {
     }
 
     private void sendDataToFragment(int selectedWaterLog) {
-
-
-
-
     }
 
     private void deleteHistory(WaterLog waterLog)  {
@@ -229,6 +191,4 @@ public class HistoryFragment extends Fragment {
         // Refresh ListView.
         this.logListAdapter.notifyDataSetChanged();
     }
-
-
 }
