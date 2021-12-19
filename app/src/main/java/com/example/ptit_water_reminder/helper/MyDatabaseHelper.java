@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Debug;
 import android.util.Log;
 
 import com.example.ptit_water_reminder.HistoryFragment;
@@ -161,7 +162,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_WATER_LOG_CREATE_AT, getDateTime());
 
         // Inserting Row
-        db.insert(TABLE_WATER_LOG, null, values);
+        Long res = db.insert(TABLE_WATER_LOG, null, values);
+
+        Log.e(TAG, res+" - " + waterLog.toString());
         db.close();
     }
 

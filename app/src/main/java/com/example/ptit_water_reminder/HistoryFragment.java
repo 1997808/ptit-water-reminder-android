@@ -1,8 +1,10 @@
 package com.example.ptit_water_reminder;
 
+import android.content.Context;
 import android.nfc.Tag;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -41,6 +43,8 @@ public class HistoryFragment extends Fragment {
     private ListView listView;
     private List<WaterLog> logList = new ArrayList<>();
     private CustomLogListAdapter logListAdapter;
+    FloatingActionButton themHistory;
+
 
 
 
@@ -79,9 +83,18 @@ public class HistoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Toast.makeText(getActivity(), "onAttach", Toast.LENGTH_SHORT).show();
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(getActivity(), "onResume", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -98,13 +111,19 @@ public class HistoryFragment extends Fragment {
         logList.addAll(data);
         logListAdapter.notifyDataSetChanged();
 
-
-
         registerForContextMenu(this.listView);
 
-
-
-
+        themHistory = view.findViewById(R.id.themHistory);
+        themHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment UpdateFragment = new AddEditHistoryFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.container, UpdateFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
 
        return view;
@@ -120,8 +139,7 @@ public class HistoryFragment extends Fragment {
         menu.setHeaderTitle("Chọn");
 
         // groupId, itemId, order, title
-        menu.add(0, MENU_ITEM_VIEW , 0, "View Note");
-        menu.add(0, MENU_ITEM_CREATE , 1, "Create Note");
+
         menu.add(0, MENU_ITEM_EDIT , 2, "Edit Note");
         menu.add(0, MENU_ITEM_DELETE, 4, "Delete Note");
     }

@@ -3,6 +3,7 @@ package com.example.ptit_water_reminder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,6 +64,10 @@ public class AddEditHistoryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_add_edit_history, container, false);
 
+        buttonSave= view.findViewById(R.id.button_save);
+        buttonCancel= view.findViewById(R.id.button_cancel);
+        textWater= view.findViewById(R.id.editText_Waterlog);
+
         this.buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)  {
                 buttonSaveClicked();
@@ -70,11 +75,14 @@ public class AddEditHistoryFragment extends Fragment {
 
             public void buttonSaveClicked() {
                 MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
-                String LuongNuoc = textWater.getText().toString();
 
-                waterLog= new WaterLog(LuongNuoc);
+                String LuongNuoc = textWater.getText().toString();
+                int ln = 0;
+                if(!LuongNuoc.isEmpty()) ln = Integer.parseInt(LuongNuoc);
+                waterLog= new WaterLog(ln);
                 db.addWaterLog(waterLog);
 
+               getFragmentManager().popBackStack();
 
             }
         });
