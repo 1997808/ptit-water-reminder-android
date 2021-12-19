@@ -38,9 +38,6 @@ public class HistoryFragment extends Fragment {
     private ListView listView;
     private List<WaterLog> logList = new ArrayList<>();
     private CustomLogListAdapter logListAdapter;
-    FloatingActionButton themHistory;
-//    private final List<Notification> noteList = new ArrayList<Notification>();
-//    private ArrayAdapter<Notification> listViewAdapter;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -108,18 +105,6 @@ public class HistoryFragment extends Fragment {
         logListAdapter.notifyDataSetChanged();
 
         registerForContextMenu(this.listView);
-
-        themHistory = view.findViewById(R.id.themHistory);
-        themHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment UpdateFragment = new AddEditHistoryFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.container, UpdateFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
        return view;
 
     }
@@ -157,7 +142,7 @@ public class HistoryFragment extends Fragment {
 //            getActivity().startActivity(intent);
             Fragment UpdateFragment = new AddEditHistoryFragment();
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.container, UpdateFragment);
+            transaction.add(R.id.fragment_container, UpdateFragment);
             sendDataToFragment(selectedWaterLog.getWaterLogId());
 
             transaction.addToBackStack(null);

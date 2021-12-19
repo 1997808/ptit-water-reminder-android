@@ -235,7 +235,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public List<WaterLog> getAllWaterLogs() {
         List<WaterLog> waterLogList = new ArrayList<WaterLog>();
-        String selectQuery = "SELECT  * FROM " + TABLE_WATER_LOG;
+        String selectQuery = "SELECT  * FROM " + TABLE_WATER_LOG + " ORDER BY " + KEY_ID + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
