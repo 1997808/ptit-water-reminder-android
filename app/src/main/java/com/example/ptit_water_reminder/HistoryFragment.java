@@ -41,11 +41,6 @@ public class HistoryFragment extends Fragment {
     private ListView listView;
     private List<WaterLog> logList = new ArrayList<>();
     private CustomLogListAdapter logListAdapter;
-
-
-
-
-//
 //    private final List<Notification> noteList = new ArrayList<Notification>();
 //    private ArrayAdapter<Notification> listViewAdapter;
 
@@ -74,14 +69,10 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
     }
 
     @Override
@@ -98,24 +89,13 @@ public class HistoryFragment extends Fragment {
         logList.addAll(data);
         logListAdapter.notifyDataSetChanged();
 
-
-
         registerForContextMenu(this.listView);
-
-
-
-
-
-
-       return view;
-
+        return view;
     }
-
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view,
                                     ContextMenu.ContextMenuInfo menuInfo)    {
-
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.setHeaderTitle("Chọn");
 
@@ -125,8 +105,6 @@ public class HistoryFragment extends Fragment {
         menu.add(0, MENU_ITEM_EDIT , 2, "Edit Note");
         menu.add(0, MENU_ITEM_DELETE, 4, "Delete Note");
     }
-
-
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
@@ -139,25 +117,17 @@ public class HistoryFragment extends Fragment {
         if(item.getItemId() == MENU_ITEM_VIEW){
             Log.d("this is tag","messsssss");
             Toast.makeText(getContext(),selectedWaterLog.getWaterLogId(),Toast.LENGTH_LONG).show();// chu y
-
-
         }
         else if(item.getItemId() == MENU_ITEM_CREATE){
-
         }
-
         else if(item.getItemId() == MENU_ITEM_EDIT ){
             Log.d("this is tag","this is edit");
-
         }
         else if(item.getItemId() == MENU_ITEM_DELETE){
-
         }
         else {
             return false;
         }
         return true;
     }
-
-
 }

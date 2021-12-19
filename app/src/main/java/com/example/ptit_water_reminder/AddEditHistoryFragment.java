@@ -60,9 +60,7 @@ public class AddEditHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_add_edit_history, container, false);
-
         this.buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)  {
                 buttonSaveClicked();
@@ -74,8 +72,6 @@ public class AddEditHistoryFragment extends Fragment {
 
                 waterLog= new WaterLog(LuongNuoc);
                 db.addWaterLog(waterLog);
-
-
             }
         });
 
@@ -83,14 +79,9 @@ public class AddEditHistoryFragment extends Fragment {
             public void onClick(View v)  {
                 buttonCancelClicked();
             }
-
             private void buttonCancelClicked() {
-
             }
         });
-
-
-
         return view;
     }
 }
