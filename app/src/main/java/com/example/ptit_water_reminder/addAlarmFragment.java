@@ -8,7 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
@@ -17,10 +20,17 @@ import com.example.ptit_water_reminder.models.WaterLog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
 public class addAlarmFragment extends Fragment {
+    private TimePicker timePicker;
+    private boolean is24HView = true;
+
+    Button btChon,btTat;
+    TextView txtHienThi;
+    Calendar calendar;
 
 
 
@@ -60,8 +70,41 @@ public class addAlarmFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_alarm, container, false);
 
+        btChon= view.findViewById(R.id.buttonChon);
+        btTat= view.findViewById(R.id.buttonTat);
+        txtHienThi= view.findViewById(R.id.textViewHienThiGio);
+        calendar= Calendar.getInstance();
+
+        this.timePicker = (TimePicker) view.findViewById(R.id.timePicker);
+        this.timePicker.setIs24HourView(this.is24HView);
+
+        btChon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+                calendar.set(Calendar.MINUTE, timePicker.getMinute());
+
+                int gio= timePicker.getHour();
+                int phut=timePicker.getMinute();
+
+                String string_gio=String.valueOf(gio);
+                String string_phut=String.valueOf(phut);
+
+
+                txtHienThi.setText("ban dat "+string_gio+" : "+string_phut);
+            }
+        });
+
+        this.timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+
+            }
+        });
+
         return view;
     }
 
 
 }
+

@@ -10,6 +10,7 @@ import android.os.Debug;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.ptit_water_reminder.models.WaterLog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
@@ -57,4 +58,9 @@ public class Home extends AppCompatActivity {
     }
 
 
+//    @Override
+//    public void sendData(WaterLog waterLogSelected) {
+//        AddEditHistoryFragment editHistoryFragment= (AddEditHistoryFragment) getSupportFragmentManager().findFragmentById(R.id.addEditFragment);
+//        editHistoryFragment.receiveData(waterLogSelected);
+//    }
 }

@@ -1,5 +1,6 @@
 package com.example.ptit_water_reminder;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,7 @@ public class AddEditHistoryFragment extends Fragment {
     private Button buttonCancel;
 
     private WaterLog waterLog;
+    private  View view;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,6 +70,11 @@ public class AddEditHistoryFragment extends Fragment {
         buttonCancel= view.findViewById(R.id.button_cancel);
         textWater= view.findViewById(R.id.editText_Waterlog);
 
+
+//        Intent intent = getActivity().getIntent();
+//        int message = intent.getIntExtra("id",0);
+//        Log.d("tag", "test "+ message);
+
         this.buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)  {
                 buttonSaveClicked();
@@ -101,4 +108,9 @@ public class AddEditHistoryFragment extends Fragment {
 
         return view;
     }
+
+//    public  void receiveData(WaterLog waterLog){
+//        textWater= view.findViewById(R.id.editText_Waterlog);
+//        textWater.setText(waterLog.getWaterLogId());
+//    }
 }
