@@ -52,20 +52,20 @@ public class ChartFragment extends Fragment {
 
         BarChart chart = view.findViewById(R.id.barchart);
 
-        ArrayList<BarEntry> visitors= new ArrayList<>();
+        ArrayList<BarEntry> luongnuoc= new ArrayList<>();
 
 
-        visitors.add(new BarEntry(2014, 0));
-        visitors.add(new BarEntry(2015, 1));
-        visitors.add(new BarEntry(2016, 2));
-        visitors.add(new BarEntry(2017, 3));
-        visitors.add(new BarEntry(2018, 4));
-        visitors.add(new BarEntry(2019, 5));
-        visitors.add(new BarEntry(2020, 6));
+        luongnuoc.add(new BarEntry(1, 1000));
+        luongnuoc.add(new BarEntry(2, 1200));
+        luongnuoc.add(new BarEntry(3, 1002));
+        luongnuoc.add(new BarEntry(4, 1300));
+        luongnuoc.add(new BarEntry(5, 1200));
+        luongnuoc.add(new BarEntry(6, 1000));
+        luongnuoc.add(new BarEntry(7, 1300));
 
 
 
-        BarDataSet bardataset = new BarDataSet(visitors, " du lieu");
+        BarDataSet bardataset = new BarDataSet(luongnuoc, " du lieu");
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         bardataset.setValueTextColor(Color.BLACK);
         bardataset.setValueTextSize(16f);
@@ -74,7 +74,7 @@ public class ChartFragment extends Fragment {
         chart.setFitBars(true);
         chart.setData(barData);
         chart.getDescription().setText("example");
-        chart.animateY(10);
+        chart.animateY(2000);
 
         return view;
     }
