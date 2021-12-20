@@ -105,8 +105,7 @@ public class HistoryFragment extends Fragment {
         logListAdapter.notifyDataSetChanged();
 
         registerForContextMenu(this.listView);
-       return view;
-
+        return view;
     }
 
     @Override

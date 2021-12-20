@@ -8,10 +8,23 @@ import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ListView;
 
 import com.example.ptit_water_reminder.R;
+import com.example.ptit_water_reminder.helper.CustomCupListAdapter;
+import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
+import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+import com.example.ptit_water_reminder.models.Cup;
+import com.example.ptit_water_reminder.models.WaterLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddLogHomeFragment extends Fragment {
+    private GridView gridView;
+    private List<Cup> cupList = new ArrayList<>();
+    private CustomCupListAdapter cupListAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
@@ -48,6 +61,19 @@ public class AddLogHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_log_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_log_home, container, false);
+        gridView = view.findViewById(R.id.gridView);
+        getActivity().setTitle("Log");
+
+        MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+        List<Cup> data = db.getAllCups();
+//        logList = db.getAllWaterLogs();
+        cupListAdapter = new CustomCupListAdapter(getActivity(), cupList);
+        gridView.setAdapter(cupListAdapter);
+        cupList.addAll(data);
+        cupListAdapter.notifyDataSetChanged();
+
+//        registerForContextMenu(this.gridView);
+        return view;
     }
 }
