@@ -1,6 +1,7 @@
 package com.example.ptit_water_reminder.helper;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,14 @@ public class CustomLogListAdapter extends BaseAdapter {
         }
 
         WaterLog log = this.listData.get(position);
-        holder.amount.setText("" + log.getAmount());
+        if (log.getAmount() >= 500) {
+            holder.item.setBackgroundColor(Color.parseColor("#DAFBFF"));
+        } else if (log.getAmount() >= 300) {
+            holder.item.setBackgroundColor(Color.parseColor("#EAFFDA"));
+        } else {
+            holder.item.setBackgroundColor(Color.parseColor("#FEFFDA"));
+        }
+        holder.amount.setText(log.getAmount() + " ml");
         holder.date.setText(log.getCreateAt());
         return convertView;
     }

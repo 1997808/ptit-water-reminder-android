@@ -1,6 +1,7 @@
 package com.example.ptit_water_reminder.helper;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,17 +58,17 @@ public class CustomCupListAdapter extends BaseAdapter {
         }
 
         Cup log = this.listData.get(position);
-        holder.amount.setText("" + log.getCupAmount());
+        holder.amount.setText(log.getCupAmount() + " ml");
         int imageId = this.getMipmapResIdByName("cup_default");
 //        if (log.getAmount() >= 0) {
 //            int imageId = this.getMipmapResIdByName(log.getAmount());
 //        }
-        if (log.getCupAmount() > 500) {
-            holder.item.setBackgroundColor(453254);
-        } else if (log.getCupAmount() > 300) {
-            holder.item.setBackgroundColor(234234);
+        if (log.getCupAmount() >= 500) {
+            holder.item.setBackgroundColor(Color.parseColor("#DAFBFF"));
+        } else if (log.getCupAmount() >= 300) {
+            holder.item.setBackgroundColor(Color.parseColor("#EAFFDA"));
         } else {
-            holder.item.setBackgroundColor(111111);
+            holder.item.setBackgroundColor(Color.parseColor("#FEFFDA"));
         }
         holder.image.setImageResource(imageId);
         return convertView;
