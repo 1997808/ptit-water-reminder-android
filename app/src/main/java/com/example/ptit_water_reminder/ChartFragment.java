@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,10 @@ public class ChartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         getActivity().setTitle("Chart");
 
-        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_chart, container, false);
 
         BarChart chart = view.findViewById(R.id.barchart);
 
@@ -69,6 +71,7 @@ public class ChartFragment extends Fragment {
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         bardataset.setValueTextColor(Color.BLACK);
         bardataset.setValueTextSize(16f);
+        Log.d("tag", "teest ");
 
         BarData barData = new BarData(bardataset);
         chart.setFitBars(true);
