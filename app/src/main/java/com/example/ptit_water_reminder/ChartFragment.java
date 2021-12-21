@@ -67,7 +67,7 @@ public class ChartFragment extends Fragment {
 
 
 
-        BarDataSet bardataset = new BarDataSet(luongnuoc, " du lieu");
+        BarDataSet bardataset = new BarDataSet(luongnuoc, "Lượng nước trong các ngày");
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         bardataset.setValueTextColor(Color.BLACK);
         bardataset.setValueTextSize(16f);
@@ -76,7 +76,7 @@ public class ChartFragment extends Fragment {
         BarData barData = new BarData(bardataset);
         chart.setFitBars(true);
         chart.setData(barData);
-        chart.getDescription().setText("example");
+        chart.getDescription().setText("mililit");
         chart.animateY(2000);
 
         return view;

@@ -98,12 +98,10 @@ public class HistoryFragment extends Fragment {
 
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
         List<WaterLog> data = db.getAllWaterLogs();
-//        logList = db.getAllWaterLogs();
         logListAdapter = new CustomLogListAdapter(getActivity(), logList);
         listView.setAdapter(logListAdapter);
         logList.addAll(data);
         logListAdapter.notifyDataSetChanged();
-
         registerForContextMenu(this.listView);
        return view;
 
@@ -131,26 +129,24 @@ public class HistoryFragment extends Fragment {
             Log.d("this is tag","messsssss");
             Toast.makeText(getContext(),selectedWaterLog.getWaterLogId(),Toast.LENGTH_LONG).show();// chu y
         }
-        else if(item.getItemId() == MENU_ITEM_CREATE){
-        }
-        else if(item.getItemId() == MENU_ITEM_EDIT ){
-//            // chuyen du lieu sang acivity
-//            Intent intent = new Intent(getActivity().getBaseContext(),
-//                    AddEditHistoryFragment.class);
-//
-//            intent.putExtra("id",selectedWaterLog.getWaterLogId());
-//            getActivity().startActivity(intent);
-            Fragment UpdateFragment = new AddEditHistoryFragment();
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container, UpdateFragment);
-            sendDataToFragment(selectedWaterLog.getWaterLogId());
 
-            transaction.addToBackStack(null);
+        else if(item.getItemId() == MENU_ITEM_EDIT ){
+            // ban du lieu
+            Bundle bundle= new Bundle();
+            bundle.putInt("id",selectedWaterLog.getWaterLogId());
+//
+            // chuyen fragment
+            FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            AddEditHistoryFragment editHistoryFragment= new AddEditHistoryFragment();
+            editHistoryFragment.setArguments(bundle);
+            transaction.replace(R.id.fragment_container, editHistoryFragment);
             transaction.commit();
+
         }
         else if(item.getItemId() == MENU_ITEM_DELETE){
             new AlertDialog.Builder(getActivity())
-                    .setMessage(selectedWaterLog.getWaterLogId()+". Are you sure you want to delete?")
+                    .setMessage(selectedWaterLog.getWaterLogId()+".Bạn có muốn xóa không?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -164,9 +160,6 @@ public class HistoryFragment extends Fragment {
             return false;
         }
         return true;
-    }
-
-    private void sendDataToFragment(int selectedWaterLog) {
     }
 
     private void deleteHistory(WaterLog waterLog)  {

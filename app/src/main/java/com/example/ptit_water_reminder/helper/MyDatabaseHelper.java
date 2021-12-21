@@ -208,7 +208,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         WaterLog waterLog = new WaterLog(Integer.parseInt(cursor.getString(0)),
-                Integer.parseInt(cursor.getString(1)), formatDateTime(cursor.getString(2)));
+                Integer.parseInt(cursor.getString(1)), cursor.getString(2));
         // return note
         return waterLog;
     }
