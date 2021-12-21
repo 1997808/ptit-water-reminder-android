@@ -8,8 +8,11 @@ import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ptit_water_reminder.R;
 import com.example.ptit_water_reminder.helper.CustomCupListAdapter;
@@ -70,6 +73,13 @@ public class AddLogHomeFragment extends Fragment {
 //        logList = db.getAllWaterLogs();
         cupListAdapter = new CustomCupListAdapter(getActivity(), cupList);
         gridView.setAdapter(cupListAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Cup selectedCup = (Cup) gridView.getItemAtPosition(position);
+                Toast.makeText(getContext(), selectedCup.getCupAmount() + "", Toast.LENGTH_LONG).show();
+            }
+        });
         cupList.addAll(data);
         cupListAdapter.notifyDataSetChanged();
 
