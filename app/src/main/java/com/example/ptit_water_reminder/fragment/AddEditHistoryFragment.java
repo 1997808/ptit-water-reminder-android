@@ -4,17 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.ptit_water_reminder.HistoryFragment;
 import com.example.ptit_water_reminder.R;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.WaterLog;
+
+import java.util.List;
 
 public class AddEditHistoryFragment extends Fragment {
 
@@ -25,19 +30,18 @@ public class AddEditHistoryFragment extends Fragment {
     private EditText textContent;
     private Button buttonSave;
     private Button buttonCancel;
+    private boolean needRefresh;
 
-    private WaterLog waterLog;
+    public WaterLog waterLog;
     private  View view;
+    private  int mode;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
     public AddEditHistoryFragment() {
     }
@@ -45,8 +49,6 @@ public class AddEditHistoryFragment extends Fragment {
     public static AddEditHistoryFragment newInstance() {
         AddEditHistoryFragment fragment = new AddEditHistoryFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,45 +66,50 @@ public class AddEditHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_edit_history, container, false);
-
+        //anh xa
         buttonSave= view.findViewById(R.id.button_save);
         buttonCancel= view.findViewById(R.id.button_cancel);
         textWater= view.findViewById(R.id.editText_Waterlog);
 
+        //nhan du lieu
+        Bundle bundle=getArguments();
+        int id= bundle.getInt("id");
+        Log.d("TAG", "onCreateView: "+id);
 
-//        Intent intent = getActivity().getIntent();
-//        int message = intent.getIntExtra("id",0);
-//        Log.d("tag", "test "+ message);
+        MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+        WaterLog data = db.getWaterLog(id);
+
+        this.textWater.setText(data.getAmount()+"");
 
         this.buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)  {
                 buttonSaveClicked();
             }
-
             public void buttonSaveClicked() {
                 MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+               int LuongNuoc =Integer.parseInt(textWater.getText().toString()) ;
+               data.setAmount(LuongNuoc);
+               db.updateWaterLog(data);
+                FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                HistoryFragment historyFragment= new HistoryFragment();
+                transaction.replace(R.id.fragment_container, historyFragment);
+                transaction.commit();
 
-                String LuongNuoc = textWater.getText().toString();
-                int ln = 0;
-                if(!LuongNuoc.isEmpty()) ln = Integer.parseInt(LuongNuoc);
-                waterLog= new WaterLog(ln);
-                db.addWaterLog(waterLog);
-                getFragmentManager().popBackStack();
             }
         });
-
         this.buttonCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)  {
                 buttonCancelClicked();
             }
             private void buttonCancelClicked() {
+                FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                HistoryFragment historyFragment= new HistoryFragment();
+                transaction.replace(R.id.fragment_container, historyFragment);
+                transaction.commit();
             }
         });
         return view;
     }
-
-//    public  void receiveData(WaterLog waterLog){
-//        textWater= view.findViewById(R.id.editText_Waterlog);
-//        textWater.setText(waterLog.getWaterLogId());
-//    }
 }
