@@ -10,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.ptit_water_reminder.R;
+import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AddCupHomeFragment extends Fragment {
+    private EditText textCupAmount;
     private Button cupButtonSave;
     private Button cupButtonCancel;
 
@@ -57,9 +60,13 @@ public class AddCupHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_cup_home, container, false);
         cupButtonSave = view.findViewById(R.id.cup_button_save);
         cupButtonCancel = view.findViewById(R.id.cup_button_cancel);
+        textCupAmount = view.findViewById(R.id.editText_cup);
+        MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
 
         cupButtonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                int amount = Integer.parseInt(textCupAmount.getText().toString());
+                db.addCup(amount);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 AddLogHomeFragment addLogHomeFragment = new AddLogHomeFragment();

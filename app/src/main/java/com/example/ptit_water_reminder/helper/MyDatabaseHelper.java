@@ -113,10 +113,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void createDefaultCupsIfNeed() {
         int count = this.getCupsCount();
         if (count == 0) {
-            Cup cup1 = new Cup(300);
-            Cup cup2 = new Cup(500);
-            this.addCup(cup1);
-            this.addCup(cup2);
+//            Cup cup1 = new Cup(300);
+//            Cup cup2 = new Cup(500);
+            this.addCup(200);
+            this.addCup(350);
         }
     }
 
@@ -142,11 +142,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addCup(Cup cup) {
-        Log.i(TAG, "MyDatabaseHelper.addNote ... " + cup.getCupAmount());
+    public void addCup(int cupAmount) {
+        Log.i(TAG, "MyDatabaseHelper.addNote ... " + cupAmount);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_CUP_AMOUNT, cup.getCupAmount());
+        values.put(KEY_CUP_AMOUNT, cupAmount);
 
         // Inserting Row
         db.insert(TABLE_CUP, null, values);
@@ -160,9 +160,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_WATER_LOG_CREATE_AT, getDateTime());
 
         // Inserting Row
-        Long res = db.insert(TABLE_WATER_LOG, null, values);
-
-        Log.e(TAG, res + " - ");
+        db.insert(TABLE_WATER_LOG, null, values);
         db.close();
     }
 

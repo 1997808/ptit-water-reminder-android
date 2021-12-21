@@ -82,7 +82,6 @@ public class AddEditHistoryFragment extends Fragment {
             }
 
             public void buttonSaveClicked() {
-                MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
                 int LuongNuoc = Integer.parseInt(textWater.getText().toString());
                 data.setAmount(LuongNuoc);
                 db.updateWaterLog(data);
