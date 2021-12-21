@@ -5,12 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.AddEditHistoryFragment"
-    android:background="@color/white"
-    android:id="@+id/addEditFragment">
+    tools:context=".fragment.AddCupHomeFragment">
 
+    <!-- TODO: Update blank fragment layout -->
     <EditText
-        android:id="@+id/editText_Waterlog"
+        android:id="@+id/editText_cup"
         android:layout_width="341dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
@@ -25,7 +24,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button_cancel"
+        android:id="@+id/cup_button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -37,11 +36,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Waterlog"
+        app:layout_constraintTop_toBottomOf="@+id/editText_cup"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button_save"
+        android:id="@+id/cup_button_save"
         android:layout_width="104dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -53,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Waterlog"
+        app:layout_constraintTop_toBottomOf="@+id/editText_cup"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

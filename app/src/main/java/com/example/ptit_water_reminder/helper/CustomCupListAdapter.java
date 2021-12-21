@@ -10,17 +10,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+
 import com.example.ptit_water_reminder.R;
+import com.example.ptit_water_reminder.models.Cup;
 import com.example.ptit_water_reminder.models.WaterLog;
 
 import java.util.List;
 
-public class CustomLogListAdapter extends BaseAdapter {
-    private List<WaterLog> listData;
+public class CustomCupListAdapter extends BaseAdapter {
+    private List<Cup> listData;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public CustomLogListAdapter(Context aContext, List<WaterLog> listData) {
+    public CustomCupListAdapter(Context aContext, List<Cup> listData) {
         this.context = aContext;
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
@@ -44,32 +47,45 @@ public class CustomLogListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.list_log_layout, null);
+            convertView = layoutInflater.inflate(R.layout.list_cup_layout, null);
             holder = new ViewHolder();
-            holder.item = convertView.findViewById(R.id.waterLogItem);
-            holder.amount = convertView.findViewById(R.id.amountWaterLog);
-            holder.date = convertView.findViewById(R.id.dateWaterLog);
+            holder.item = convertView.findViewById(R.id.cupItem);
+            holder.amount = convertView.findViewById(R.id.cupAmount);
+            holder.image = convertView.findViewById(R.id.cupImageView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        WaterLog log = this.listData.get(position);
-        if (log.getAmount() >= 500) {
+        Cup log = this.listData.get(position);
+        holder.amount.setText(log.getCupAmount() + " ml");
+        int imageId = this.getMipmapResIdByName("cup_default");
+//        if (log.getAmount() >= 0) {
+//            int imageId = this.getMipmapResIdByName(log.getAmount());
+//        }
+        if (log.getCupAmount() >= 500) {
             holder.item.setBackgroundColor(Color.parseColor("#DAFBFF"));
-        } else if (log.getAmount() >= 300) {
+        } else if (log.getCupAmount() >= 300) {
             holder.item.setBackgroundColor(Color.parseColor("#EAFFDA"));
         } else {
             holder.item.setBackgroundColor(Color.parseColor("#FEFFDA"));
         }
-        holder.amount.setText(log.getAmount() + " ml");
-        holder.date.setText(log.getCreateAt());
+        holder.image.setImageResource(imageId);
         return convertView;
+    }
+
+    // Find Image ID corresponding to the name of the image (in the directory mipmap).
+    public int getMipmapResIdByName(String resName) {
+        String pkgName = context.getPackageName();
+        // Return 0 if not found.
+        int resID = context.getResources().getIdentifier(resName, "mipmap", pkgName);
+        Log.i("CustomListView", "Res Name: " + resName + "==> Res ID = " + resID);
+        return resID;
     }
 
     static class ViewHolder {
         View item;
+        ImageView image;
         TextView amount;
-        TextView date;
     }
 }

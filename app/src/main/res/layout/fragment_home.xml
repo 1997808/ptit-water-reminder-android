@@ -27,6 +27,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="20dp"
         android:contentDescription="add"
+        android:backgroundTint="@color/light_blue_A400"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/add_item1" />

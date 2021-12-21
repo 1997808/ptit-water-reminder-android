@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.ptit_water_reminder.fragment.addAlarmFragment;
 import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
 import com.example.ptit_water_reminder.models.Notification;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,7 @@ public class AlarmFragment extends Fragment {
     private List<Notification> notification = new ArrayList<>();
     private CustomLogListAdapter logListAdapter;
     FloatingActionButton themAlarm;
+
     public AlarmFragment() {
         // Required empty public constructor
     }

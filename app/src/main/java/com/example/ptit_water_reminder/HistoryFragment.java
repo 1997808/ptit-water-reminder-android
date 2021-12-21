@@ -47,16 +47,11 @@ public class HistoryFragment extends Fragment {
     private static final int MENU_ITEM_CREATE = 333;
     private static final int MENU_ITEM_DELETE = 444;
 
-//    public IsendDataListener mIsendDataListener;
-
     private String mParam1;
     private String mParam2;
+
     public HistoryFragment() {
     }
-
-//    public interface IsendDataListener{
-//        void sendData(WaterLog waterLogSelected);
-//    }
 
     public static HistoryFragment newInstance(String param1, String param2) {
         HistoryFragment fragment = new HistoryFragment();
@@ -77,19 +72,6 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-//        mIsendDataListener= (IsendDataListener) getActivity();
-        Toast.makeText(getActivity(), "onAttach", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Toast.makeText(getActivity(), "onResume", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
@@ -103,50 +85,48 @@ public class HistoryFragment extends Fragment {
         logList.addAll(data);
         logListAdapter.notifyDataSetChanged();
         registerForContextMenu(this.listView);
-       return view;
-
+        return view;
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view,
-                                    ContextMenu.ContextMenuInfo menuInfo)    {
+                                    ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.setHeaderTitle("Chọn");
 
         // groupId, itemId, order, title
-        menu.add(0, MENU_ITEM_EDIT , 2, "Edit Note");
+        menu.add(0, MENU_ITEM_EDIT, 2, "Edit Note");
         menu.add(0, MENU_ITEM_DELETE, 4, "Delete Note");
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item){
+    public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo
                 info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         final WaterLog selectedWaterLog = (WaterLog) this.listView.getItemAtPosition(info.position);
 
-        if(item.getItemId() == MENU_ITEM_VIEW){
-            Log.d("this is tag","messsssss");
-            Toast.makeText(getContext(),selectedWaterLog.getWaterLogId(),Toast.LENGTH_LONG).show();// chu y
-        }
+//        if(item.getItemId() == MENU_ITEM_VIEW){
+//            Log.d("this is tag","messsssss");
+//            Toast.makeText(getContext(),selectedWaterLog.getWaterLogId(),Toast.LENGTH_LONG).show();// chu y
+//        }
 
-        else if(item.getItemId() == MENU_ITEM_EDIT ){
+        if (item.getItemId() == MENU_ITEM_EDIT) {
             // ban du lieu
-            Bundle bundle= new Bundle();
-            bundle.putInt("id",selectedWaterLog.getWaterLogId());
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", selectedWaterLog.getWaterLogId());
 //
             // chuyen fragment
-            FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            AddEditHistoryFragment editHistoryFragment= new AddEditHistoryFragment();
+            AddEditHistoryFragment editHistoryFragment = new AddEditHistoryFragment();
             editHistoryFragment.setArguments(bundle);
             transaction.replace(R.id.fragment_container, editHistoryFragment);
             transaction.commit();
 
-        }
-        else if(item.getItemId() == MENU_ITEM_DELETE){
+        } else if (item.getItemId() == MENU_ITEM_DELETE) {
             new AlertDialog.Builder(getActivity())
-                    .setMessage(selectedWaterLog.getWaterLogId()+".Bạn có muốn xóa không?")
+                    .setMessage(selectedWaterLog.getWaterLogId() + ".Bạn có muốn xóa không?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -155,14 +135,13 @@ public class HistoryFragment extends Fragment {
                     })
                     .setNegativeButton("No", null)
                     .show();
-        }
-        else {
+        } else {
             return false;
         }
         return true;
     }
 
-    private void deleteHistory(WaterLog waterLog)  {
+    private void deleteHistory(WaterLog waterLog) {
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
         db.deleteWaterLog(waterLog);
         this.logList.remove(waterLog);

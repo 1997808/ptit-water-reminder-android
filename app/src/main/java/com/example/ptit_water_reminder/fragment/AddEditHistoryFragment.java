@@ -32,11 +32,6 @@ public class AddEditHistoryFragment extends Fragment {
     private Button buttonCancel;
     private boolean needRefresh;
 
-    public WaterLog waterLog;
-    private  View view;
-    private  int mode;
-
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -67,45 +62,46 @@ public class AddEditHistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_edit_history, container, false);
         //anh xa
-        buttonSave= view.findViewById(R.id.button_save);
-        buttonCancel= view.findViewById(R.id.button_cancel);
-        textWater= view.findViewById(R.id.editText_Waterlog);
+        buttonSave = view.findViewById(R.id.button_save);
+        buttonCancel = view.findViewById(R.id.button_cancel);
+        textWater = view.findViewById(R.id.editText_Waterlog);
 
         //nhan du lieu
-        Bundle bundle=getArguments();
-        int id= bundle.getInt("id");
-        Log.d("TAG", "onCreateView: "+id);
+        Bundle bundle = getArguments();
+        int id = bundle.getInt("id");
+        Log.d("TAG", "onCreateView: " + id);
 
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
         WaterLog data = db.getWaterLog(id);
 
-        this.textWater.setText(data.getAmount()+"");
+        this.textWater.setText(data.getAmount() + "");
 
         this.buttonSave.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)  {
+            public void onClick(View v) {
                 buttonSaveClicked();
             }
+
             public void buttonSaveClicked() {
-                MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
-               int LuongNuoc =Integer.parseInt(textWater.getText().toString()) ;
-               data.setAmount(LuongNuoc);
-               db.updateWaterLog(data);
-                FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+                int LuongNuoc = Integer.parseInt(textWater.getText().toString());
+                data.setAmount(LuongNuoc);
+                db.updateWaterLog(data);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                HistoryFragment historyFragment= new HistoryFragment();
+                HistoryFragment historyFragment = new HistoryFragment();
                 transaction.replace(R.id.fragment_container, historyFragment);
                 transaction.commit();
-
             }
         });
+
         this.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)  {
+            public void onClick(View v) {
                 buttonCancelClicked();
             }
+
             private void buttonCancelClicked() {
-                FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                HistoryFragment historyFragment= new HistoryFragment();
+                HistoryFragment historyFragment = new HistoryFragment();
                 transaction.replace(R.id.fragment_container, historyFragment);
                 transaction.commit();
             }

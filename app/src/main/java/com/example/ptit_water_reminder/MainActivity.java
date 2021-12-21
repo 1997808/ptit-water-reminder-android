@@ -14,7 +14,7 @@ import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
     EditText edTaiKhoan, edPassword;
-    Button btdangNhap,btdangKy;
+    Button btdangNhap, btdangKy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         MyDatabaseHelper db = new MyDatabaseHelper(this);
         db.createDefaultCupsIfNeed();
-        db.createDefaultWaterLogsIfNeed();
-        db.getAllCups();
+//        db.createDefaultWaterLogsIfNeed();
+        db.getWaterLogChart();
 
         this.getSupportActionBar().setTitle("Login");
 
@@ -33,27 +33,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(edTaiKhoan.getText().length() !=0 &&edPassword.getText().length()!=0){
-                    if (edTaiKhoan.getText().toString().equals("yen")&& edPassword.getText().toString().equals("123"))
-                    {
-                        Toast.makeText(MainActivity.this,"Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
-                        Intent i= new Intent(MainActivity.this,Home.class);
+                if (edTaiKhoan.getText().length() != 0 && edPassword.getText().length() != 0) {
+                    if (edTaiKhoan.getText().toString().equals("yen") && edPassword.getText().toString().equals("123")) {
+                        Toast.makeText(MainActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(MainActivity.this, Home.class);
                         startActivity(i);
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this,"Dang nhap that bai", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Dang nhap that bai", Toast.LENGTH_SHORT).show();
                     }
                 }
-                Intent i= new Intent(MainActivity.this,Home.class);
+                Intent i = new Intent(MainActivity.this, Home.class);
                 startActivity(i);
             }
         });
     }
 
-    public  void anhXa(){
-        edTaiKhoan=(EditText) findViewById(R.id.tenDangNhap);
-        edPassword= (EditText) findViewById(R.id.password);
-        btdangNhap=(Button) findViewById(R.id.btDangNhap);
-        btdangKy=(Button) findViewById(R.id.btDangKy);
+    public void anhXa() {
+        edTaiKhoan = (EditText) findViewById(R.id.tenDangNhap);
+        edPassword = (EditText) findViewById(R.id.password);
+        btdangNhap = (Button) findViewById(R.id.btDangNhap);
+        btdangKy = (Button) findViewById(R.id.btDangKy);
     }
 }

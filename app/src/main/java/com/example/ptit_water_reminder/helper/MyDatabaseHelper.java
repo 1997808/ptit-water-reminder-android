@@ -39,11 +39,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_WATER_LOG = "waterLog";
 
     // Common column names
-    private static final String KEY_ID ="id";
-    private static final String KEY_USER_ID ="user_id";
+    private static final String KEY_ID = "id";
+    private static final String KEY_USER_ID = "user_id";
 
     // USER Table
-    private static final String KEY_USER_NAME ="name";
+    private static final String KEY_USER_NAME = "name";
     private static final String KEY_USER_EMAIL = "email";
     private static final String KEY_USER_PASSWORD = "password";
     private static final String KEY_USER_WATER_TARGET = "waterTarget";
@@ -52,11 +52,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_CUP_AMOUNT = "amount";
 
     // WATER_LOG Table
-    private static final String KEY_WATER_LOG_AMOUNT ="amount";
+    private static final String KEY_WATER_LOG_AMOUNT = "amount";
     private static final String KEY_WATER_LOG_CREATE_AT = "createAt";
 
     // NOTIFICATION Table
-    private static final String KEY_NOTIFICATION_NOTE ="note";
+    private static final String KEY_NOTIFICATION_NOTE = "note";
     private static final String KEY_NOTIFICATION_TIME = "time";
 
     // Table Create Statements
@@ -85,7 +85,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + KEY_NOTIFICATION_NOTE + " TEXT,"
             + KEY_NOTIFICATION_TIME + " DATETIME" + ")";
 
-    public MyDatabaseHelper(Context context)  {
+    public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -110,24 +110,22 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
     // If Cup table has no data. default, Insert 2 records.
-    public void createDefaultCupsIfNeed()  {
+    public void createDefaultCupsIfNeed() {
         int count = this.getCupsCount();
-        if(count == 0) {
-            Cup cup1 = new Cup(300);
-            Cup cup2 = new Cup(500);
-            this.addCup(cup1);
-            this.addCup(cup2);
+        if (count == 0) {
+//            Cup cup1 = new Cup(300);
+//            Cup cup2 = new Cup(500);
+            this.addCup(200);
+            this.addCup(350);
         }
     }
 
-    public void createDefaultWaterLogsIfNeed()  {
+    public void createDefaultWaterLogsIfNeed() {
 //        int count = 0;
         int count = this.getWaterLogCount();
-        if(count == 0) {
-            WaterLog log1 = new WaterLog(300);
-            WaterLog log2 = new WaterLog(500);
-            this.addWaterLog(log1);
-            this.addWaterLog(log2);
+        if (count == 0) {
+            this.addWaterLog(300);
+            this.addWaterLog(500);
         }
     }
 
@@ -144,28 +142,25 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addCup(Cup cup) {
-        Log.i(TAG, "MyDatabaseHelper.addNote ... " + cup.getCupAmount());
+    public void addCup(int cupAmount) {
+        Log.i(TAG, "MyDatabaseHelper.addNote ... " + cupAmount);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_CUP_AMOUNT, cup.getCupAmount());
+        values.put(KEY_CUP_AMOUNT, cupAmount);
 
         // Inserting Row
         db.insert(TABLE_CUP, null, values);
         db.close();
     }
 
-    public void addWaterLog(WaterLog waterLog) {
-        Log.i(TAG, "MyDatabaseHelper.addNote ... " + waterLog.getAmount());
+    public void addWaterLog(int waterLogAmount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_WATER_LOG_AMOUNT, waterLog.getAmount());
+        values.put(KEY_WATER_LOG_AMOUNT, waterLogAmount);
         values.put(KEY_WATER_LOG_CREATE_AT, getDateTime());
 
         // Inserting Row
-        Long res = db.insert(TABLE_WATER_LOG, null, values);
-
-        Log.e(TAG, res+" - " + waterLog.toString());
+        db.insert(TABLE_WATER_LOG, null, values);
         db.close();
     }
 
@@ -174,9 +169,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public User getUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USER, new String[] { KEY_ID,
-                        KEY_USER_NAME, KEY_USER_WATER_TARGET }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID,
+                        KEY_USER_NAME, KEY_USER_WATER_TARGET}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -188,9 +183,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public Cup getCup(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_CUP, new String[] { KEY_ID,
-                        KEY_CUP_AMOUNT }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_CUP, new String[]{KEY_ID,
+                        KEY_CUP_AMOUNT}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -199,11 +194,23 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cup;
     }
 
+    public boolean checkCupDuplicate(int amount) {
+        String countQuery = "SELECT  * FROM " + TABLE_CUP + " WHERE " + KEY_CUP_AMOUNT + "=" + amount;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        if (count > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public WaterLog getWaterLog(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_WATER_LOG, new String[] { KEY_ID,
-                        KEY_WATER_LOG_AMOUNT, KEY_WATER_LOG_CREATE_AT }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_WATER_LOG, new String[]{KEY_ID,
+                        KEY_WATER_LOG_AMOUNT, KEY_WATER_LOG_CREATE_AT}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -215,7 +222,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public List<Cup> getAllCups() {
         List<Cup> cupList = new ArrayList<Cup>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CUP;
+        String selectQuery = "SELECT  * FROM " + TABLE_CUP + " ORDER BY " + KEY_CUP_AMOUNT + " ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -231,6 +238,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return cupList;
+    }
+
+    public List<WaterLog> getWaterLogChart() {
+        List<WaterLog> waterLogList = new ArrayList<WaterLog>();
+        String selectQuery = "SELECT SUM(" + KEY_WATER_LOG_AMOUNT + "), STRFTIME('%d-%m'," + KEY_WATER_LOG_CREATE_AT + ")" +
+                " FROM " + TABLE_WATER_LOG +
+                " GROUP BY STRFTIME('%Y-%m-%d'," + KEY_WATER_LOG_CREATE_AT + ")" +
+                " HAVING " + KEY_WATER_LOG_CREATE_AT + " BETWEEN DATE('now', '-4 day') AND DATE('now', '+1 day')";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                WaterLog log = new WaterLog();
+                log.setAmount(Integer.parseInt(cursor.getString(0)));
+                log.setCreateAt(cursor.getString(1));
+                waterLogList.add(log);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return waterLogList;
     }
 
     public List<WaterLog> getAllWaterLogs() {
@@ -302,7 +331,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //    }
 
     public int updateCup(Cup cup) {
-        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... "  + cup.getCupId());
+        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... " + cup.getCupId());
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -313,7 +342,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public int updateWaterLog(WaterLog log) {
-        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... "  + log.getWaterLogId());
+        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... " + log.getWaterLogId());
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -326,14 +355,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void deleteCup(Cup cup) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CUP, KEY_ID + " = ?",
-                new String[] { String.valueOf(cup.getCupId()) });
+                new String[]{String.valueOf(cup.getCupId())});
         db.close();
     }
 
     public void deleteWaterLog(WaterLog waterLog) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_WATER_LOG, KEY_ID + " = ?",
-                new String[] { String.valueOf(waterLog.getWaterLogId()) });
+                new String[]{String.valueOf(waterLog.getWaterLogId())});
         db.close();
     }
 
