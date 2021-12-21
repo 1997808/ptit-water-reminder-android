@@ -32,11 +32,6 @@ public class AddEditHistoryFragment extends Fragment {
     private Button buttonCancel;
     private boolean needRefresh;
 
-    public WaterLog waterLog;
-    private  View view;
-    private  int mode;
-
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -87,17 +82,17 @@ public class AddEditHistoryFragment extends Fragment {
             }
             public void buttonSaveClicked() {
                 MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
-               int LuongNuoc =Integer.parseInt(textWater.getText().toString()) ;
-               data.setAmount(LuongNuoc);
-               db.updateWaterLog(data);
+                int LuongNuoc =Integer.parseInt(textWater.getText().toString());
+                data.setAmount(LuongNuoc);
+                db.updateWaterLog(data);
                 FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 HistoryFragment historyFragment= new HistoryFragment();
                 transaction.replace(R.id.fragment_container, historyFragment);
                 transaction.commit();
-
             }
         });
+
         this.buttonCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)  {
                 buttonCancelClicked();
