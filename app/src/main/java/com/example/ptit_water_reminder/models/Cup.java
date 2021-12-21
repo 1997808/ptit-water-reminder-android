@@ -2,7 +2,7 @@ package com.example.ptit_water_reminder.models;
 
 public class Cup {
     private int cupId;
-//    private int userId;
+    //    private int userId;
     private Integer cupAmount;
 
     // constructors

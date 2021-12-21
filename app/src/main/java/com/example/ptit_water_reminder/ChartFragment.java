@@ -31,6 +31,7 @@ import java.util.List;
 public class ChartFragment extends Fragment {
 
     BarChart bar;
+
     public ChartFragment() {
     }
 
@@ -54,7 +55,7 @@ public class ChartFragment extends Fragment {
 
         BarChart chart = view.findViewById(R.id.barchart);
 
-        ArrayList<BarEntry> luongnuoc= new ArrayList<>();
+        ArrayList<BarEntry> luongnuoc = new ArrayList<>();
 
 
         luongnuoc.add(new BarEntry(1, 1000));
@@ -64,7 +65,6 @@ public class ChartFragment extends Fragment {
         luongnuoc.add(new BarEntry(5, 1200));
         luongnuoc.add(new BarEntry(6, 1000));
         luongnuoc.add(new BarEntry(7, 1300));
-
 
 
         BarDataSet bardataset = new BarDataSet(luongnuoc, "Lượng nước trong các ngày");
@@ -83,5 +83,4 @@ public class ChartFragment extends Fragment {
     }
 
 
-
-    }
+}

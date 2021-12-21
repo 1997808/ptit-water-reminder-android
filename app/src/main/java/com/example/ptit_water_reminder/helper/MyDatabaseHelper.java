@@ -39,11 +39,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_WATER_LOG = "waterLog";
 
     // Common column names
-    private static final String KEY_ID ="id";
-    private static final String KEY_USER_ID ="user_id";
+    private static final String KEY_ID = "id";
+    private static final String KEY_USER_ID = "user_id";
 
     // USER Table
-    private static final String KEY_USER_NAME ="name";
+    private static final String KEY_USER_NAME = "name";
     private static final String KEY_USER_EMAIL = "email";
     private static final String KEY_USER_PASSWORD = "password";
     private static final String KEY_USER_WATER_TARGET = "waterTarget";
@@ -52,11 +52,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_CUP_AMOUNT = "amount";
 
     // WATER_LOG Table
-    private static final String KEY_WATER_LOG_AMOUNT ="amount";
+    private static final String KEY_WATER_LOG_AMOUNT = "amount";
     private static final String KEY_WATER_LOG_CREATE_AT = "createAt";
 
     // NOTIFICATION Table
-    private static final String KEY_NOTIFICATION_NOTE ="note";
+    private static final String KEY_NOTIFICATION_NOTE = "note";
     private static final String KEY_NOTIFICATION_TIME = "time";
 
     // Table Create Statements
@@ -85,7 +85,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + KEY_NOTIFICATION_NOTE + " TEXT,"
             + KEY_NOTIFICATION_TIME + " DATETIME" + ")";
 
-    public MyDatabaseHelper(Context context)  {
+    public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -110,9 +110,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
     // If Cup table has no data. default, Insert 2 records.
-    public void createDefaultCupsIfNeed()  {
+    public void createDefaultCupsIfNeed() {
         int count = this.getCupsCount();
-        if(count == 0) {
+        if (count == 0) {
             Cup cup1 = new Cup(300);
             Cup cup2 = new Cup(500);
             this.addCup(cup1);
@@ -120,10 +120,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void createDefaultWaterLogsIfNeed()  {
+    public void createDefaultWaterLogsIfNeed() {
 //        int count = 0;
         int count = this.getWaterLogCount();
-        if(count == 0) {
+        if (count == 0) {
             WaterLog log1 = new WaterLog(300);
             WaterLog log2 = new WaterLog(500);
             this.addWaterLog(log1);
@@ -165,7 +165,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // Inserting Row
         Long res = db.insert(TABLE_WATER_LOG, null, values);
 
-        Log.e(TAG, res+" - " + waterLog.toString());
+        Log.e(TAG, res + " - " + waterLog.toString());
         db.close();
     }
 
@@ -174,9 +174,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public User getUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USER, new String[] { KEY_ID,
-                        KEY_USER_NAME, KEY_USER_WATER_TARGET }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID,
+                        KEY_USER_NAME, KEY_USER_WATER_TARGET}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -188,9 +188,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public Cup getCup(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_CUP, new String[] { KEY_ID,
-                        KEY_CUP_AMOUNT }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_CUP, new String[]{KEY_ID,
+                        KEY_CUP_AMOUNT}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -201,9 +201,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public WaterLog getWaterLog(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_WATER_LOG, new String[] { KEY_ID,
-                        KEY_WATER_LOG_AMOUNT, KEY_WATER_LOG_CREATE_AT }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_WATER_LOG, new String[]{KEY_ID,
+                        KEY_WATER_LOG_AMOUNT, KEY_WATER_LOG_CREATE_AT}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -302,7 +302,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //    }
 
     public int updateCup(Cup cup) {
-        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... "  + cup.getCupId());
+        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... " + cup.getCupId());
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -313,7 +313,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public int updateWaterLog(WaterLog log) {
-        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... "  + log.getWaterLogId());
+        Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... " + log.getWaterLogId());
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -326,14 +326,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void deleteCup(Cup cup) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CUP, KEY_ID + " = ?",
-                new String[] { String.valueOf(cup.getCupId()) });
+                new String[]{String.valueOf(cup.getCupId())});
         db.close();
     }
 
     public void deleteWaterLog(WaterLog waterLog) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_WATER_LOG, KEY_ID + " = ?",
-                new String[] { String.valueOf(waterLog.getWaterLogId()) });
+                new String[]{String.valueOf(waterLog.getWaterLogId())});
         db.close();
     }
 

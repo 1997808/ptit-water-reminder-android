@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class WaterLog {
     private int waterLogId;
-//    private int userId;
+    //    private int userId;
     private int amount;
     private String createAt;
 
@@ -68,6 +68,6 @@ public class WaterLog {
 
     @Override
     public String toString() {
-        return this.createAt + " ("+ this.amount+")";
+        return this.createAt + " (" + this.amount + ")";
     }
 }

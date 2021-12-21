@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Notification {
     private int notificationId;
-//    private int userId;
+    //    private int userId;
     private String note;
     private Date time;
 

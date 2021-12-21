@@ -23,6 +23,7 @@ public class AlarmFragment extends Fragment {
     private List<Notification> notification = new ArrayList<>();
     private CustomLogListAdapter logListAdapter;
     FloatingActionButton themAlarm;
+
     public AlarmFragment() {
         // Required empty public constructor
     }

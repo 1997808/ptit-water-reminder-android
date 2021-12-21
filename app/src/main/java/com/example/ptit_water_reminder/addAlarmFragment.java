@@ -28,7 +28,7 @@ public class addAlarmFragment extends Fragment {
     private TimePicker timePicker;
     private boolean is24HView = true;
 
-    Button btChon,btTat;
+    Button btChon, btTat;
     TextView txtHienThi;
     Calendar calendar;
 
@@ -67,10 +67,10 @@ public class addAlarmFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_alarm, container, false);
 
-        btChon= view.findViewById(R.id.buttonChon);
-        btTat= view.findViewById(R.id.buttonTat);
-        txtHienThi= view.findViewById(R.id.textViewHienThiGio);
-        calendar= Calendar.getInstance();
+        btChon = view.findViewById(R.id.buttonChon);
+        btTat = view.findViewById(R.id.buttonTat);
+        txtHienThi = view.findViewById(R.id.textViewHienThiGio);
+        calendar = Calendar.getInstance();
 
         this.timePicker = (TimePicker) view.findViewById(R.id.timePicker);
         this.timePicker.setIs24HourView(this.is24HView);
@@ -81,14 +81,14 @@ public class addAlarmFragment extends Fragment {
                 calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
                 calendar.set(Calendar.MINUTE, timePicker.getMinute());
 
-                int gio= timePicker.getHour();
-                int phut=timePicker.getMinute();
+                int gio = timePicker.getHour();
+                int phut = timePicker.getMinute();
 
-                String string_gio=String.valueOf(gio);
-                String string_phut=String.valueOf(phut);
+                String string_gio = String.valueOf(gio);
+                String string_phut = String.valueOf(phut);
 
 
-                txtHienThi.setText("ban dat "+string_gio+" : "+string_phut);
+                txtHienThi.setText("ban dat " + string_gio + " : " + string_phut);
             }
         });
 

@@ -31,32 +31,32 @@ public class Home extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, new HistoryFragment());
         transaction.commit();
 
-         // button navigation
+        // button navigation
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HomeFragment.newInstance()).commit();
     }
 
     private NavigationBarView.OnItemSelectedListener navListener = new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        openFragment(HomeFragment.newInstance());
-                        return true;
-                    case R.id.navigation_dashboard:
-                        openFragment(ChartFragment.newInstance());
-                        return true;
-                    case R.id.navigation_history:
-                        openFragment(HistoryFragment.newInstance("", ""));
-                        return true;
-                    case R.id.navigation_notifications:
-                        openFragment(AlarmFragment.newInstance());
-                        return true;
-                }
-                return false;
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    openFragment(HomeFragment.newInstance());
+                    return true;
+                case R.id.navigation_dashboard:
+                    openFragment(ChartFragment.newInstance());
+                    return true;
+                case R.id.navigation_history:
+                    openFragment(HistoryFragment.newInstance("", ""));
+                    return true;
+                case R.id.navigation_notifications:
+                    openFragment(AlarmFragment.newInstance());
+                    return true;
             }
-        };
+            return false;
+        }
+    };
 
     private void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
