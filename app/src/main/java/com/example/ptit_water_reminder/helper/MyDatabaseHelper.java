@@ -194,6 +194,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cup;
     }
 
+    public boolean checkCupDuplicate(int amount) {
+        String countQuery = "SELECT  * FROM " + TABLE_CUP + " WHERE " + KEY_CUP_AMOUNT + "=" + amount;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        if (count > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public WaterLog getWaterLog(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_WATER_LOG, new String[]{KEY_ID,

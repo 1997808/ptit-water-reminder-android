@@ -66,7 +66,9 @@ public class AddCupHomeFragment extends Fragment {
         cupButtonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int amount = Integer.parseInt(textCupAmount.getText().toString());
-                db.addCup(amount);
+                if (amount > 0 && !db.checkCupDuplicate(amount)) {
+                    db.addCup(amount);
+                }
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 AddLogHomeFragment addLogHomeFragment = new AddLogHomeFragment();

@@ -1,5 +1,7 @@
 package com.example.ptit_water_reminder.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,6 +42,7 @@ public class AddLogHomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int MENU_ITEM_DELETE = 444;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -90,6 +95,9 @@ public class AddLogHomeFragment extends Fragment {
 //        logList = db.getAllWaterLogs();
         cupListAdapter = new CustomCupListAdapter(getActivity(), cupList);
         gridView.setAdapter(cupListAdapter);
+        cupList.addAll(data);
+        cupListAdapter.notifyDataSetChanged();
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,10 +110,37 @@ public class AddLogHomeFragment extends Fragment {
                 transaction.commit();
             }
         });
-        cupList.addAll(data);
-        cupListAdapter.notifyDataSetChanged();
 
-//        registerForContextMenu(this.gridView);
+        registerForContextMenu(this.gridView);
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        menu.setHeaderTitle("Delete?");
+
+        // groupId, itemId, order, title
+        menu.add(0, MENU_ITEM_DELETE, 4, "Delete Cup");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo
+                info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        final Cup selectedCup = (Cup) this.gridView.getItemAtPosition(info.position);
+
+        if (item.getItemId() == MENU_ITEM_DELETE) {
+            MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+            db.deleteCup(selectedCup);
+            this.cupList.remove(selectedCup);
+            // Refresh ListView.
+            this.cupListAdapter.notifyDataSetChanged();
+        } else {
+            return false;
+        }
+        return true;
     }
 }
