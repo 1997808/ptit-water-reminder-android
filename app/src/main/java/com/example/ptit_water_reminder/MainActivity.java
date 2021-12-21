@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         MyDatabaseHelper db = new MyDatabaseHelper(this);
         db.createDefaultCupsIfNeed();
-        db.createDefaultWaterLogsIfNeed();
-        db.getAllCups();
+//        db.createDefaultWaterLogsIfNeed();
+        db.getWaterLogChart();
 
         this.getSupportActionBar().setTitle("Login");
 

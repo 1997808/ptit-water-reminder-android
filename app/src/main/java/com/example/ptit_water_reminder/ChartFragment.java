@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+import com.example.ptit_water_reminder.models.WaterLog;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -29,9 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChartFragment extends Fragment {
-
-    BarChart bar;
-
     public ChartFragment() {
     }
 
@@ -48,36 +47,37 @@ public class ChartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         getActivity().setTitle("Chart");
-
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
-
         BarChart chart = view.findViewById(R.id.barchart);
-
         ArrayList<BarEntry> luongnuoc = new ArrayList<>();
+        ArrayList<String> xAxisLabel = new ArrayList<>();
 
+        MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+        List<WaterLog> data = db.getWaterLogChart();
 
-        luongnuoc.add(new BarEntry(1, 1000));
-        luongnuoc.add(new BarEntry(2, 1200));
-        luongnuoc.add(new BarEntry(3, 1002));
-        luongnuoc.add(new BarEntry(4, 1300));
-        luongnuoc.add(new BarEntry(5, 1200));
-        luongnuoc.add(new BarEntry(6, 1000));
-        luongnuoc.add(new BarEntry(7, 1300));
-
+        for (int i = 0; i < data.size(); i++) {
+            xAxisLabel.add(data.get(i).getCreateAt());
+            luongnuoc.add(new BarEntry(i, data.get(i).getAmount()));
+        }
 
         BarDataSet bardataset = new BarDataSet(luongnuoc, "Lượng nước trong các ngày");
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        bardataset.setValueTextColor(Color.BLACK);
-        bardataset.setValueTextSize(16f);
-        Log.d("tag", "teest ");
+        bardataset.setColors(Color.parseColor("#00B1FF"));
+//        bardataset.setValueTextColor(Color.BLACK);
+        bardataset.setValueTextSize(14f);
 
         BarData barData = new BarData(bardataset);
-        chart.setFitBars(true);
+        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+        chart.getXAxis().setDrawGridLines(false);
+        // start at 0
+        chart.getAxisLeft().setAxisMinimum(0f);
+        chart.getAxisRight().setDrawLabels(false);
+        chart.getAxisRight().setDrawGridLines(false);
+        chart.getLegend().setEnabled(false);
+        chart.setFitBars(false);
         chart.setData(barData);
-        chart.getDescription().setText("mililit");
-        chart.animateY(2000);
+        chart.getDescription().setText("");
+        chart.animateY(1000);
 
         return view;
     }

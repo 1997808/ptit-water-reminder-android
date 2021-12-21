@@ -240,6 +240,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cupList;
     }
 
+    public List<WaterLog> getWaterLogChart() {
+        List<WaterLog> waterLogList = new ArrayList<WaterLog>();
+        String selectQuery = "SELECT SUM(" + KEY_WATER_LOG_AMOUNT + "), STRFTIME('%d-%m'," + KEY_WATER_LOG_CREATE_AT + ")" +
+                " FROM " + TABLE_WATER_LOG +
+                " GROUP BY STRFTIME('%Y-%m-%d'," + KEY_WATER_LOG_CREATE_AT + ")" +
+                " HAVING " + KEY_WATER_LOG_CREATE_AT + " BETWEEN DATE('now', '-4 day') AND DATE('now', '+1 day')";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                WaterLog log = new WaterLog();
+                log.setAmount(Integer.parseInt(cursor.getString(0)));
+                log.setCreateAt(cursor.getString(1));
+                waterLogList.add(log);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return waterLogList;
+    }
+
     public List<WaterLog> getAllWaterLogs() {
         List<WaterLog> waterLogList = new ArrayList<WaterLog>();
         String selectQuery = "SELECT  * FROM " + TABLE_WATER_LOG + " ORDER BY " + KEY_ID + " DESC";
