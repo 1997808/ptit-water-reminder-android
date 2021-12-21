@@ -124,10 +124,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //        int count = 0;
         int count = this.getWaterLogCount();
         if (count == 0) {
-            WaterLog log1 = new WaterLog(300);
-            WaterLog log2 = new WaterLog(500);
-            this.addWaterLog(log1);
-            this.addWaterLog(log2);
+            this.addWaterLog(300);
+            this.addWaterLog(500);
         }
     }
 
@@ -155,17 +153,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addWaterLog(WaterLog waterLog) {
-        Log.i(TAG, "MyDatabaseHelper.addNote ... " + waterLog.getAmount());
+    public void addWaterLog(int waterLogAmount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_WATER_LOG_AMOUNT, waterLog.getAmount());
+        values.put(KEY_WATER_LOG_AMOUNT, waterLogAmount);
         values.put(KEY_WATER_LOG_CREATE_AT, getDateTime());
 
         // Inserting Row
         Long res = db.insert(TABLE_WATER_LOG, null, values);
 
-        Log.e(TAG, res + " - " + waterLog.toString());
+        Log.e(TAG, res + " - ");
         db.close();
     }
 
@@ -215,7 +212,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public List<Cup> getAllCups() {
         List<Cup> cupList = new ArrayList<Cup>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CUP;
+        String selectQuery = "SELECT  * FROM " + TABLE_CUP + " ORDER BY " + KEY_CUP_AMOUNT + " ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

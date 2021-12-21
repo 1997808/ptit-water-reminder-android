@@ -1,4 +1,4 @@
-package com.example.ptit_water_reminder;
+package com.example.ptit_water_reminder.fragment;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.ptit_water_reminder.R;
 import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.Notification;

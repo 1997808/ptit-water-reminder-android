@@ -94,7 +94,7 @@ public class AddLogHomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Cup selectedCup = (Cup) gridView.getItemAtPosition(position);
-                Toast.makeText(getContext(), selectedCup.getCupAmount() + "", Toast.LENGTH_LONG).show();
+                db.addWaterLog(selectedCup.getCupAmount());
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 HomeFragment homeFragment = new HomeFragment();
