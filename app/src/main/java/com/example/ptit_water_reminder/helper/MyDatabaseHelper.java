@@ -194,6 +194,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public boolean checkUserExist() {
         String countQuery = "SELECT  * FROM " + TABLE_USER;
         SQLiteDatabase db = this.getReadableDatabase();
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+//        db.execSQL(CREATE_TABLE_USER);
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
         cursor.close();
@@ -412,21 +414,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
-
-//    public int updateNote(Note note) {
-//        Log.i(TAG, "MyDatabaseHelper.updateNote ... "  + note.getNoteTitle());
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        ContentValues values = new ContentValues();
-//        values.put(COLUMN_NOTE_TITLE, note.getNoteTitle());
-//        values.put(COLUMN_NOTE_CONTENT, note.getNoteContent());
-//
-//        // updating row
-//        return db.update(TABLE_NOTIFICATION, values, KEY_ID + " = ?",
-//                new String[]{String.valueOf(note.getNoteId())});
-//    }
-
     public int updateCup(Cup cup) {
         Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... " + cup.getCupId());
         SQLiteDatabase db = this.getWritableDatabase();
@@ -447,6 +434,17 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         return db.update(TABLE_WATER_LOG, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(log.getWaterLogId())});
+    }
+
+    public int updateUser(User user) {
+        Log.i("TAG", "MyDatabaseHelper.updateWaterLog ... " + user.getName());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_WATER_TARGET, user.getWaterTarget());
+
+        return db.update(TABLE_USER, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(user.getUserId())});
     }
 
     public void deleteCup(Cup cup) {

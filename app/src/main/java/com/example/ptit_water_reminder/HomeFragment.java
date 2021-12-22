@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ptit_water_reminder.fragment.AddLogHomeFragment;
+import com.example.ptit_water_reminder.fragment.EditUserWaterTargetFragment;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,6 +45,17 @@ public class HomeFragment extends Fragment {
         CircularProgressIndicator progress = view.findViewById(R.id.progress_circular_waterlog);
         FloatingActionButton floatingButtonHome = view.findViewById(R.id.floating_button_home);
         getActivity().setTitle("Home");
+
+        daily_target_amount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, EditUserWaterTargetFragment.newInstance("", ""));
+                transaction.addToBackStack(null);
+                transaction.commit();
+                getActivity().setTitle("Edit Water Target");
+            }
+        });
 
         floatingButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
