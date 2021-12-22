@@ -13,8 +13,10 @@ import android.widget.ListView;
 
 import com.example.ptit_water_reminder.fragment.addAlarmFragment;
 import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
+import com.example.ptit_water_reminder.helper.CustomNotificationListAdapter;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.Notification;
+import com.example.ptit_water_reminder.models.WaterLog;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -29,8 +31,8 @@ import java.util.Locale;
 public class AlarmFragment extends Fragment {
 
     private ListView listView;
-    private List<Notification> notification = new ArrayList<>();
-    private CustomLogListAdapter logListAdapter;
+    private List<Notification> notificationList = new ArrayList<>();
+    private CustomNotificationListAdapter notificationListAdapter;
     FloatingActionButton themAlarm;
 
     @TimeFormat private int clockFormat = TimeFormat.CLOCK_24H;
@@ -57,6 +59,7 @@ public class AlarmFragment extends Fragment {
         // Inflate the layout for this fragment
         getActivity().setTitle("Alarm");
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
+        listView = view.findViewById(R.id.listNotificationView);
         themAlarm = view.findViewById(R.id.themAlarm);
 
         Calendar calendar = Calendar.getInstance();
@@ -88,6 +91,13 @@ public class AlarmFragment extends Fragment {
             }
         });
 
+        MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+        List<Notification> data = db.getAllNotifications();
+        notificationListAdapter = new CustomNotificationListAdapter(getActivity(), data);
+        listView.setAdapter(notificationListAdapter);
+        notificationList.addAll(data);
+        notificationListAdapter.notifyDataSetChanged();
+
         return view;
     }
 
@@ -101,6 +111,13 @@ public class AlarmFragment extends Fragment {
         Log.i("TAG", format);
 //        textView.setText(format);
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
-        db.addNotification(format);
+        if (!db.checkNotificationDuplicate(format)) {
+            db.addNotification(format);
+            List<Notification> data = db.getAllNotifications();
+            notificationListAdapter = new CustomNotificationListAdapter(getActivity(), data);
+            listView.setAdapter(notificationListAdapter);
+//            notificationList.addAll(data);
+//            notificationListAdapter.notifyDataSetChanged();
+        }
     }
 }

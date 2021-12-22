@@ -9,7 +9,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <ListView
-        android:id="@+id/listLogView"
+        android:id="@+id/listNotificationView"
         android:layout_width="372dp"
         android:layout_height="581dp"
         app:layout_constraintBottom_toBottomOf="parent"

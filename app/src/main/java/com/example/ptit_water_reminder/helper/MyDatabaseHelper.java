@@ -244,6 +244,20 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return notification;
     }
 
+    public boolean checkNotificationDuplicate(String time) {
+        String countQuery = "SELECT * FROM " + TABLE_NOTIFICATION + " WHERE " + KEY_NOTIFICATION_TIME + "='" + time + "'";
+        Log.i("TAG", countQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        Log.i("TAG", String.valueOf(count));
+        if (count > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public List<Cup> getAllCups() {
         List<Cup> cupList = new ArrayList<Cup>();
         String selectQuery = "SELECT  * FROM " + TABLE_CUP + " ORDER BY " + KEY_CUP_AMOUNT + " ASC";
