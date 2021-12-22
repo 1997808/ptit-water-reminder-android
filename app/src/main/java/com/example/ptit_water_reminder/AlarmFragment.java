@@ -2,6 +2,7 @@ package com.example.ptit_water_reminder;
 
 import android.os.Bundle;
 
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -105,6 +106,12 @@ public class AlarmFragment extends Fragment {
         notificationListAdapter.notifyDataSetChanged();
 
         registerForContextMenu(this.listView);
+
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                .setSmallIcon(R.drawable.notification_icon)
+//                .setContentTitle(textTitle)
+//                .setContentText(textContent)
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         return view;
     }
