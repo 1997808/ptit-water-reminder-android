@@ -14,10 +14,6 @@ import android.widget.Toast;
 
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.utils.AlarmReceiver;
-import com.example.ptit_water_reminder.utils.AlarmScheduler;
-
-import java.util.Calendar;
-
 
 public class MainActivity extends AppCompatActivity {
     EditText edTaiKhoan, edPassword;

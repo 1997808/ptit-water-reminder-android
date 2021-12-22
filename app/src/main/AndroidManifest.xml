@@ -27,7 +27,6 @@
             android:enabled="true"
             android:exported="true">
         </receiver>
-        <service android:name=".utils.SchedulingService"/>
     </application>
 
 </manifest>

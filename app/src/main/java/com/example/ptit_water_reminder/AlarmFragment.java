@@ -1,16 +1,12 @@
 package com.example.ptit_water_reminder;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.ContextMenu;
@@ -21,17 +17,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.ptit_water_reminder.fragment.addAlarmFragment;
-import com.example.ptit_water_reminder.helper.CustomCupListAdapter;
-import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
 import com.example.ptit_water_reminder.helper.CustomNotificationListAdapter;
 import com.example.ptit_water_reminder.utils.AlarmReceiver;
-import com.example.ptit_water_reminder.utils.MyApplication;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
-import com.example.ptit_water_reminder.models.Cup;
 import com.example.ptit_water_reminder.models.Notification;
-import com.example.ptit_water_reminder.models.WaterLog;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -39,7 +28,6 @@ import com.google.android.material.timepicker.TimeFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -91,12 +79,6 @@ public class AlarmFragment extends Fragment {
         themAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Fragment addFragment = new addAlarmFragment();
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.add(R.id.fragment_container, addFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-
                 materialTimePicker.show(requireFragmentManager(), "fragment_tag");
 
                 materialTimePicker.addOnPositiveButtonClickListener(dialog -> {
@@ -115,23 +97,8 @@ public class AlarmFragment extends Fragment {
         notificationListAdapter.notifyDataSetChanged();
 
         registerForContextMenu(this.listView);
-
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), MyApplication.CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-//                .setContentTitle("Push")
-//                .setContentText("Hello World")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//        android.app.Notification notification = builder.build();
-//
-//        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
-//        notificationManagerCompat.notify(getNotificationId(), notification);
         return view;
     }
-
-//    private int getNotificationId() {
-//        return (int) new Date().getTime();
-//    }
 
     private void onTimeSet(int newHour, int newMinute) {
         Calendar cal = Calendar.getInstance();
@@ -141,14 +108,10 @@ public class AlarmFragment extends Fragment {
 
         String format = formatter.format(cal.getTime());
         Log.i("TAG", format);
-//        textView.setText(format);
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
         if (!db.checkNotificationDuplicate(format)) {
             db.addNotification(format);
             List<Notification> data = db.getAllNotifications();
-//            notificationListAdapter = new CustomNotificationListAdapter(getActivity(), notificationList);
-//            listView.setAdapter(notificationListAdapter);
-//            registerForContextMenu(this.listView);
             this.notificationList.removeAll(notificationList);
             this.notificationList.addAll(data);
             this.notificationListAdapter.notifyDataSetChanged();

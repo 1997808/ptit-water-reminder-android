@@ -64,11 +64,4 @@ public class Home extends AppCompatActivity {
         transaction.addToBackStack(null); //if you add fragments it will be added to the backStack. If you replace the fragment it will add only the last fragment
         transaction.commit(); // commit() performs the action
     }
-
-
-//    @Override
-//    public void sendData(WaterLog waterLogSelected) {
-//        AddEditHistoryFragment editHistoryFragment= (AddEditHistoryFragment) getSupportFragmentManager().findFragmentById(R.id.addEditFragment);
-//        editHistoryFragment.receiveData(waterLogSelected);
-//    }
 }

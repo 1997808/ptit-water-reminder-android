@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Date;
 

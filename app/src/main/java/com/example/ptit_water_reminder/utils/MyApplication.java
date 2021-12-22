@@ -56,8 +56,8 @@ public class MyApplication extends ContextWrapper {
 
     public NotificationCompat.Builder getChannelNotification() {
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setContentTitle("Alarm!")
-                .setContentText("Your AlarmManager is working.")
+                .setContentTitle("Nhắc nhở uống nước!")
+                .setContentText("Hãy cập nhật lượng nước trong ngày")
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp);
     }
 }
