@@ -1,7 +1,10 @@
 package com.example.ptit_water_reminder;
 
+import android.app.AlarmManager;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
@@ -22,6 +25,8 @@ import com.example.ptit_water_reminder.fragment.addAlarmFragment;
 import com.example.ptit_water_reminder.helper.CustomCupListAdapter;
 import com.example.ptit_water_reminder.helper.CustomLogListAdapter;
 import com.example.ptit_water_reminder.helper.CustomNotificationListAdapter;
+import com.example.ptit_water_reminder.utils.AlarmReceiver;
+import com.example.ptit_water_reminder.utils.MyApplication;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
 import com.example.ptit_water_reminder.models.Cup;
 import com.example.ptit_water_reminder.models.Notification;
@@ -111,28 +116,22 @@ public class AlarmFragment extends Fragment {
 
         registerForContextMenu(this.listView);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), MyApplitcation.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setContentTitle("Push")
-                .setContentText("Hello World")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        android.app.Notification notification = builder.build();
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
-        notificationManagerCompat.notify(getNotificationId(), notification);
-
-//        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-//        if (notificationManager != null) {
-//            notificationManager.notify(getNotificationId(), notification);
-//        }
-
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), MyApplication.CHANNEL_ID)
+//                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+//                .setContentTitle("Push")
+//                .setContentText("Hello World")
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//        android.app.Notification notification = builder.build();
+//
+//        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
+//        notificationManagerCompat.notify(getNotificationId(), notification);
         return view;
     }
 
-    private int getNotificationId() {
-        return (int) new Date().getTime();
-    }
+//    private int getNotificationId() {
+//        return (int) new Date().getTime();
+//    }
 
     private void onTimeSet(int newHour, int newMinute) {
         Calendar cal = Calendar.getInstance();
@@ -154,6 +153,7 @@ public class AlarmFragment extends Fragment {
             this.notificationList.addAll(data);
             this.notificationListAdapter.notifyDataSetChanged();
         }
+        startAlarm(cal);
     }
 
     @Override
@@ -183,5 +183,17 @@ public class AlarmFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 }

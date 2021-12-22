@@ -1,20 +1,33 @@
-package com.example.ptit_water_reminder;
+package com.example.ptit_water_reminder.utils;
 
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Build;
 
-public class MyApplitcation extends Application {
+import androidx.core.app.NotificationCompat;
+
+import com.example.ptit_water_reminder.R;
+
+public class MyApplication extends ContextWrapper {
     public static final String CHANNEL_ID = "CHANNEL_1";
+    private NotificationManager mManager;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
+    public MyApplication(Context base) {
+        super(base);
         createNotificationChannel();
     }
 
+//    @Override
+//    public void onCreate() {
+//        super.onCreate();
+//        createNotificationChannel();
+//    }
+
+    //setup notification channel
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -31,5 +44,20 @@ public class MyApplitcation extends Application {
                 notificationManager.createNotificationChannel(channel);
             }
         }
+    }
+
+    public NotificationManager getManager() {
+        if (mManager == null) {
+            mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+
+        return mManager;
+    }
+
+    public NotificationCompat.Builder getChannelNotification() {
+        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setContentTitle("Alarm!")
+                .setContentText("Your AlarmManager is working.")
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp);
     }
 }

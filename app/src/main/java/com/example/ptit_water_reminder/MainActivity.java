@@ -2,6 +2,9 @@ package com.example.ptit_water_reminder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+import com.example.ptit_water_reminder.utils.AlarmReceiver;
+import com.example.ptit_water_reminder.utils.AlarmScheduler;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         anhXa();
+//        AlarmScheduler.create(this);
 
         MyDatabaseHelper db = new MyDatabaseHelper(this);
         db.createDefaultCupsIfNeed();
-//        db.createDefaultWaterLogsIfNeed();
         db.getWaterLogChart();
 
         this.getSupportActionBar().setTitle("Login");
@@ -32,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         btdangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (edTaiKhoan.getText().length() != 0 && edPassword.getText().length() != 0) {
                     if (edTaiKhoan.getText().toString().equals("yen") && edPassword.getText().toString().equals("123")) {
                         Toast.makeText(MainActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
