@@ -272,7 +272,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public User getUser() {
         List<User> userList = new ArrayList<User>();
-        String selectQuery = "SELECT  * FROM " + TABLE_USER;
+        String selectQuery = "SELECT * FROM " + TABLE_USER;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -283,11 +283,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 User user = new User();
                 user.setUserId(Integer.parseInt(cursor.getString(0)));
                 user.setName(cursor.getString(1));
-                user.setWaterTarget(Integer.parseInt(cursor.getString(2)));
+                user.setWaterTarget(Integer.parseInt(cursor.getString(4)));
                 userList.add(user);
             } while (cursor.moveToNext());
         }
         cursor.close();
+        Log.i("TAG", String.valueOf(userList.size()));
         if (userList.size() > 0) {
             return userList.get(0);
         } else {

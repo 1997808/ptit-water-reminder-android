@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.ptit_water_reminder.fragment.AddLogHomeFragment;
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+import com.example.ptit_water_reminder.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView percent = view.findViewById(R.id.overview_percentage);
         TextView overview_ml = view.findViewById(R.id.overview_ml);
+        TextView daily_target_amount = view.findViewById(R.id.daily_target_amount);
         CircularProgressIndicator progress = view.findViewById(R.id.progress_circular_waterlog);
         FloatingActionButton floatingButtonHome = view.findViewById(R.id.floating_button_home);
         getActivity().setTitle("Home");
@@ -55,12 +57,13 @@ public class HomeFragment extends Fragment {
         });
 
         MyDatabaseHelper db = new MyDatabaseHelper(getActivity());
+        User user = db.getUser();
         int sum = db.getSumWaterLogToday();
-        Log.i("TAG", String.valueOf(sum));
-        int percentInt = calculatePercentage(sum, 2000);
+        int percentInt = calculatePercentage(sum, user.getWaterTarget());
         progress.setProgressCompat(percentInt, false);
         percent.setText(percentInt + "%");
         overview_ml.setText(sum + " ml");
+        daily_target_amount.setText("Daily target " + user.getWaterTarget() + " ml");
         return view;
     }
 

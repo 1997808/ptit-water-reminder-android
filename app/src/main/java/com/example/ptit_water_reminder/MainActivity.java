@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
+import com.example.ptit_water_reminder.models.User;
 import com.example.ptit_water_reminder.utils.AlarmReceiver;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,28 +25,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         anhXa();
+        Intent i = new Intent(MainActivity.this, Home.class);
 //        AlarmScheduler.create(this);
 
         MyDatabaseHelper db = new MyDatabaseHelper(this);
         db.createDefaultCupsIfNeed();
-        db.getWaterLogChart();
+        // da co user tu dong vao
+        if (db.checkUserExist()) {
+            startActivity(i);
+        };
 
         this.getSupportActionBar().setTitle("Login");
 
         btDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edName.getText().length() != 0 && edTarget.getText().length() != 0) {
-                    if (edTarget.getText().toString().equals("yen") && edName.getText().toString().equals("123")) {
-                        Toast.makeText(MainActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(MainActivity.this, Home.class);
+                if (edName.getText().length() != 0) {
+                    if (edTarget.getText().length() > 3 && edTarget.getText().length() < 5) {
+                        User user = new User(edName.getText().toString(), Integer.parseInt(edTarget.getText().toString()));
+                        db.addUser(user);
                         startActivity(i);
                     } else {
-                        Toast.makeText(MainActivity.this, "Dang nhap that bai", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Lượng nước mục tiêu từ 1000 - 9999", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(MainActivity.this, "Hãy nhập tên", Toast.LENGTH_SHORT).show();
                 }
-                Intent i = new Intent(MainActivity.this, Home.class);
-                startActivity(i);
             }
         });
     }
