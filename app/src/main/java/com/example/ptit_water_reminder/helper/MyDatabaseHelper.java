@@ -177,18 +177,30 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public User getUser(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID,
-                        KEY_USER_NAME, KEY_USER_WATER_TARGET}, KEY_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
+//    public User getUser(int id) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID,
+//                        KEY_USER_NAME, KEY_USER_WATER_TARGET}, KEY_ID + "=?",
+//                new String[]{String.valueOf(id)}, null, null, null, null);
+//        if (cursor != null)
+//            cursor.moveToFirst();
+//
+//        User user = new User(Integer.parseInt(cursor.getString(0)),
+//                cursor.getString(1), Integer.parseInt(cursor.getString(2)));
+//        // return note
+//        return user;
+//    }
 
-        User user = new User(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), Integer.parseInt(cursor.getString(2)));
-        // return note
-        return user;
+    public boolean checkUserExist() {
+        String countQuery = "SELECT  * FROM " + TABLE_USER;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 
     public Cup getCup(int id) {
@@ -256,6 +268,31 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
         return false;
+    }
+
+    public User getUser() {
+        List<User> userList = new ArrayList<User>();
+        String selectQuery = "SELECT  * FROM " + TABLE_USER;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User();
+                user.setUserId(Integer.parseInt(cursor.getString(0)));
+                user.setName(cursor.getString(1));
+                user.setWaterTarget(Integer.parseInt(cursor.getString(2)));
+                userList.add(user);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        if (userList.size() > 0) {
+            return userList.get(0);
+        } else {
+            return new User();
+        }
     }
 
     public List<Cup> getAllCups() {
