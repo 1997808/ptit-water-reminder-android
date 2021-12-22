@@ -1,8 +1,11 @@
 package com.example.ptit_water_reminder;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -31,6 +34,7 @@ import com.google.android.material.timepicker.TimeFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -107,13 +111,27 @@ public class AlarmFragment extends Fragment {
 
         registerForContextMenu(this.listView);
 
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setSmallIcon(R.drawable.notification_icon)
-//                .setContentTitle(textTitle)
-//                .setContentText(textContent)
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), MyApplitcation.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                .setContentTitle("Push")
+                .setContentText("Hello World")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        android.app.Notification notification = builder.build();
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
+        notificationManagerCompat.notify(getNotificationId(), notification);
+
+//        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+//        if (notificationManager != null) {
+//            notificationManager.notify(getNotificationId(), notification);
+//        }
 
         return view;
+    }
+
+    private int getNotificationId() {
+        return (int) new Date().getTime();
     }
 
     private void onTimeSet(int newHour, int newMinute) {
