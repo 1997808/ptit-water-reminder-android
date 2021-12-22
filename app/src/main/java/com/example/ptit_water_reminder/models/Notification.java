@@ -6,23 +6,23 @@ public class Notification {
     private int notificationId;
     //    private int userId;
     private String note;
-    private Date time;
+    private String time;
 
     // constructors
     public Notification() {
 
     }
 
-    public Notification(Date time) {
+    public Notification(String time) {
         this.time = time;
     }
 
-    public Notification(String note, Date time) {
+    public Notification(String note, String time) {
         this.note = note;
         this.time = time;
     }
 
-    public Notification(int notificationId, String note, Date time) {
+    public Notification(int notificationId, String note, String time) {
         this.notificationId = notificationId;
         this.note = note;
         this.time = time;
@@ -53,11 +53,11 @@ public class Notification {
         this.note = note;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

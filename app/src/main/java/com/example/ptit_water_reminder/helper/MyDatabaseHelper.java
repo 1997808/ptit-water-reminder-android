@@ -164,21 +164,45 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-//    public void addNotification(Notification notification) {
+    public void addNotification(String time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String note = "Drinking time";
+        Log.i("TAG", time);
+        values.put(KEY_NOTIFICATION_NOTE, note);
+        values.put(KEY_NOTIFICATION_TIME, time);
+
+        // Inserting Row
+        db.insert(TABLE_NOTIFICATION, null, values);
+        db.close();
+    }
+
+//    public User getUser(int id) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID,
+//                        KEY_USER_NAME, KEY_USER_WATER_TARGET}, KEY_ID + "=?",
+//                new String[]{String.valueOf(id)}, null, null, null, null);
+//        if (cursor != null)
+//            cursor.moveToFirst();
+//
+//        User user = new User(Integer.parseInt(cursor.getString(0)),
+//                cursor.getString(1), Integer.parseInt(cursor.getString(2)));
+//        // return note
+//        return user;
 //    }
 
-    public User getUser(int id) {
+    public boolean checkUserExist() {
+        String countQuery = "SELECT  * FROM " + TABLE_USER;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID,
-                        KEY_USER_NAME, KEY_USER_WATER_TARGET}, KEY_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        User user = new User(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), Integer.parseInt(cursor.getString(2)));
-        // return note
-        return user;
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+//        db.execSQL(CREATE_TABLE_USER);
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 
     public Cup getCup(int id) {
@@ -218,6 +242,60 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 Integer.parseInt(cursor.getString(1)), cursor.getString(2));
         // return note
         return waterLog;
+    }
+
+    public Notification getNotification(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NOTIFICATION, new String[]{KEY_ID,
+                        KEY_NOTIFICATION_NOTE, KEY_NOTIFICATION_TIME}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Notification notification = new Notification(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2));
+        // return note
+        return notification;
+    }
+
+    public boolean checkNotificationDuplicate(String time) {
+        String countQuery = "SELECT * FROM " + TABLE_NOTIFICATION + " WHERE " + KEY_NOTIFICATION_TIME + "='" + time + "'";
+        Log.i("TAG", countQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        Log.i("TAG", String.valueOf(count));
+        if (count > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public User getUser() {
+        List<User> userList = new ArrayList<User>();
+        String selectQuery = "SELECT * FROM " + TABLE_USER;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User();
+                user.setUserId(Integer.parseInt(cursor.getString(0)));
+                user.setName(cursor.getString(1));
+                user.setWaterTarget(Integer.parseInt(cursor.getString(4)));
+                userList.add(user);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        Log.i("TAG", String.valueOf(userList.size()));
+        if (userList.size() > 0) {
+            return userList.get(0);
+        } else {
+            return new User();
+        }
     }
 
     public List<Cup> getAllCups() {
@@ -283,6 +361,27 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return waterLogList;
     }
 
+    public List<Notification> getAllNotifications() {
+        List<Notification> notificationList = new ArrayList<Notification>();
+        String selectQuery = "SELECT * FROM " + TABLE_NOTIFICATION + " ORDER BY " + KEY_NOTIFICATION_TIME + " ASC";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Notification notification = new Notification();
+                notification.setNotificationId(Integer.parseInt(cursor.getString(0)));
+                notification.setNote(cursor.getString(1));
+                notification.setTime(cursor.getString(2));
+                notificationList.add(notification);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return notificationList;
+    }
+
     public int getCupsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CUP;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -315,21 +414,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
-
-//    public int updateNote(Note note) {
-//        Log.i(TAG, "MyDatabaseHelper.updateNote ... "  + note.getNoteTitle());
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        ContentValues values = new ContentValues();
-//        values.put(COLUMN_NOTE_TITLE, note.getNoteTitle());
-//        values.put(COLUMN_NOTE_CONTENT, note.getNoteContent());
-//
-//        // updating row
-//        return db.update(TABLE_NOTIFICATION, values, KEY_ID + " = ?",
-//                new String[]{String.valueOf(note.getNoteId())});
-//    }
-
     public int updateCup(Cup cup) {
         Log.i(TAG, "MyDatabaseHelper.updateWaterLog ... " + cup.getCupId());
         SQLiteDatabase db = this.getWritableDatabase();
@@ -352,6 +436,17 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(log.getWaterLogId())});
     }
 
+    public int updateUser(User user) {
+        Log.i("TAG", "MyDatabaseHelper.updateWaterLog ... " + user.getName());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_WATER_TARGET, user.getWaterTarget());
+
+        return db.update(TABLE_USER, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(user.getUserId())});
+    }
+
     public void deleteCup(Cup cup) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CUP, KEY_ID + " = ?",
@@ -366,6 +461,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteNotification(Notification notification) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NOTIFICATION, KEY_ID + " = ?",
+                new String[]{String.valueOf(notification.getNotificationId())});
+        db.close();
+    }
+
     private String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -373,9 +475,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return dateFormat.format(date);
     }
 
-    private String formatDateTime(String date) {
+    private String formatTime(String time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return dateFormat.format(date);
+                "HH:mm:ss", Locale.getDefault());
+        return dateFormat.format(time);
     }
 }

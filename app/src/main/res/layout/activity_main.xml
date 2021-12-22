@@ -12,10 +12,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="90dp"
         android:gravity="center_horizontal"
-        android:text="W2FRIEND"
+        android:text="W2Friend"
         android:textColor="#00BCD4"
-
-
         android:textSize="48sp"
         android:textStyle="bold"></TextView>
     <LinearLayout
@@ -29,57 +27,34 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/logowater">
-
         </ImageView>
+
         <EditText
-            android:id="@+id/tenDangNhap"
-            android:textSize="20dp"
+            android:id="@+id/username"
+            android:textSize="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Tài khoản"
+            android:hint="Tên bạn là"
             android:ems="15"
             android:layout_marginBottom="15dp"
             >
-
         </EditText>
-
         <EditText
-            android:id="@+id/password"
-            android:textSize="20dp"
+            android:id="@+id/userTarget"
+            android:textSize="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="pass"
-            android:inputType="textPassword"
+            android:hint="Lượng nước mục tiêu"
+            android:inputType="numberDecimal"
             android:ems="15"
             >
-
         </EditText>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quên mật khẩu ?"
-            android:textSize="15dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="25dp">
-
-        </TextView>
         <Button
             android:id="@+id/btDangNhap"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đăng nhập">
-
+            android:text="Bắt đầu sử dụng"
+            android:layout_marginTop="40dp">
         </Button>
-        <Button
-            android:id="@+id/btDangKy"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Đăng kỳ">
-
-        </Button>
-
     </LinearLayout>
-
-
-
 </RelativeLayout>

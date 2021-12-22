@@ -96,7 +96,6 @@ public class addAlarmFragment extends Fragment {
         this.timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-
             }
         });
 

@@ -81,6 +81,4 @@ public class ChartFragment extends Fragment {
 
         return view;
     }
-
-
 }

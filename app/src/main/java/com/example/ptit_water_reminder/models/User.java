@@ -7,7 +7,7 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private Integer waterTarget;
+    private int waterTarget;
 
     // constructors
     public User() {
@@ -18,12 +18,12 @@ public class User {
         this.name = name;
     }
 
-    public User(String name, Integer waterTarget) {
+    public User(String name, int waterTarget) {
         this.name = name;
         this.waterTarget = waterTarget;
     }
 
-    public User(int userId, String name, Integer waterTarget) {
+    public User(int userId, String name, int waterTarget) {
         this.userId = userId;
         this.name = name;
         this.waterTarget = waterTarget;
@@ -34,7 +34,7 @@ public class User {
         this.password = password;
     }
 
-    public User(String name, String email, String password, Integer waterTarget) {
+    public User(String name, String email, String password, int waterTarget) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -74,11 +74,11 @@ public class User {
         this.password = password;
     }
 
-    public Integer getWaterTarget() {
+    public int getWaterTarget() {
         return waterTarget;
     }
 
-    public void setWaterTarget(Integer waterTarget) {
+    public void setWaterTarget(int waterTarget) {
         this.waterTarget = waterTarget;
     }
 }

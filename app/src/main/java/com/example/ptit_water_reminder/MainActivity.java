@@ -2,6 +2,9 @@ package com.example.ptit_water_reminder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,48 +13,51 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ptit_water_reminder.helper.MyDatabaseHelper;
-
+import com.example.ptit_water_reminder.models.User;
+import com.example.ptit_water_reminder.utils.AlarmReceiver;
 
 public class MainActivity extends AppCompatActivity {
-    EditText edTaiKhoan, edPassword;
-    Button btdangNhap, btdangKy;
+    EditText edName, edTarget;
+    Button btDangNhap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         anhXa();
+        Intent i = new Intent(MainActivity.this, Home.class);
+//        AlarmScheduler.create(this);
 
         MyDatabaseHelper db = new MyDatabaseHelper(this);
         db.createDefaultCupsIfNeed();
-//        db.createDefaultWaterLogsIfNeed();
-        db.getWaterLogChart();
+        // da co user tu dong vao
+        if (db.checkUserExist()) {
+            startActivity(i);
+        };
 
         this.getSupportActionBar().setTitle("Login");
 
-        btdangNhap.setOnClickListener(new View.OnClickListener() {
+        btDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (edTaiKhoan.getText().length() != 0 && edPassword.getText().length() != 0) {
-                    if (edTaiKhoan.getText().toString().equals("yen") && edPassword.getText().toString().equals("123")) {
-                        Toast.makeText(MainActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(MainActivity.this, Home.class);
+                if (edName.getText().length() != 0) {
+                    if (edTarget.getText().length() > 3 && edTarget.getText().length() < 5) {
+                        User user = new User(edName.getText().toString(), Integer.parseInt(edTarget.getText().toString()));
+                        db.addUser(user);
                         startActivity(i);
                     } else {
-                        Toast.makeText(MainActivity.this, "Dang nhap that bai", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Lượng nước mục tiêu từ 1000 - 9999", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(MainActivity.this, "Hãy nhập tên", Toast.LENGTH_SHORT).show();
                 }
-                Intent i = new Intent(MainActivity.this, Home.class);
-                startActivity(i);
             }
         });
     }
 
     public void anhXa() {
-        edTaiKhoan = (EditText) findViewById(R.id.tenDangNhap);
-        edPassword = (EditText) findViewById(R.id.password);
-        btdangNhap = (Button) findViewById(R.id.btDangNhap);
-        btdangKy = (Button) findViewById(R.id.btDangKy);
+        edName = (EditText) findViewById(R.id.username);
+        edTarget = (EditText) findViewById(R.id.userTarget);
+        btDangNhap = (Button) findViewById(R.id.btDangNhap);
     }
 }

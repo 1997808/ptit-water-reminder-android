@@ -106,11 +106,6 @@ public class HistoryFragment extends Fragment {
 
         final WaterLog selectedWaterLog = (WaterLog) this.listView.getItemAtPosition(info.position);
 
-//        if(item.getItemId() == MENU_ITEM_VIEW){
-//            Log.d("this is tag","messsssss");
-//            Toast.makeText(getContext(),selectedWaterLog.getWaterLogId(),Toast.LENGTH_LONG).show();// chu y
-//        }
-
         if (item.getItemId() == MENU_ITEM_EDIT) {
             // ban du lieu
             Bundle bundle = new Bundle();
