@@ -425,6 +425,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteNotification(Notification notification) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NOTIFICATION, KEY_ID + " = ?",
+                new String[]{String.valueOf(notification.getNotificationId())});
+        db.close();
+    }
+
     private String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
