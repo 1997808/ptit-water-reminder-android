@@ -125,7 +125,7 @@ public class AlarmFragment extends Fragment {
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.setHeaderTitle("Delete?");
 
-        // groupId, itemId, order, title
+//         groupId, itemId, order, title
         menu.add(0, MENU_ITEM_DELETE, 4, "Delete Notification");
     }
 

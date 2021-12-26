@@ -78,7 +78,7 @@ public class AddLogHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_log_home, container, false);
         gridView = view.findViewById(R.id.gridView);
         addCup = view.findViewById(R.id.floating_cup_home);
-        getActivity().setTitle("Log");
+        getActivity().setTitle("Add Log");
 
         this.addCup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
