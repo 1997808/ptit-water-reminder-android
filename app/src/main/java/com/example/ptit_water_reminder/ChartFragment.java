@@ -50,6 +50,7 @@ public class ChartFragment extends Fragment {
         getActivity().setTitle("Chart");
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
         BarChart chart = view.findViewById(R.id.barchart);
+
         ArrayList<BarEntry> luongnuoc = new ArrayList<>();
         ArrayList<String> xAxisLabel = new ArrayList<>();
 
@@ -67,6 +68,8 @@ public class ChartFragment extends Fragment {
         bardataset.setValueTextSize(14f);
 
         BarData barData = new BarData(bardataset);
+        chart.setData(barData);
+
         chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
         chart.getXAxis().setDrawGridLines(false);
         // start at 0
@@ -75,7 +78,6 @@ public class ChartFragment extends Fragment {
         chart.getAxisRight().setDrawGridLines(false);
         chart.getLegend().setEnabled(false);
         chart.setFitBars(false);
-        chart.setData(barData);
         chart.getDescription().setText("");
         chart.animateY(1000);
 
